@@ -34,6 +34,8 @@ export function GameProvider({ children }) {
 
     return <GameContext.Provider value={{
         onToggleMusica,
+        play,
+        setToggleMusica
     }}>
         {children}
     </GameContext.Provider>

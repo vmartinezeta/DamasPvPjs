@@ -1,14 +1,17 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PhaserGame } from './game/PhaserGame'
 import { useGame } from './context/GameContext'
-import "./estilos.css"
 
 
 function App    () {
     const [centroControl, setCentroControl] = useState({ play: false, salir: true })
     const phaserRef = useRef();
-    const { onToggleMusica } = useGame()
+    const { onToggleMusica, play, setToggleMusica} = useGame()
 
+    useEffect(()=> {
+        play()
+       setToggleMusica(true)
+    },[])
 
     const changeScene = () => {
         const scene = phaserRef.current.scene
@@ -17,7 +20,7 @@ function App    () {
         }
     }
 
-    const play = () => {
+    const playGame = () => {
         const scene = phaserRef.current.scene
         if (scene && scene.scene.key === "MainMenu") {
             scene.play()
@@ -42,7 +45,7 @@ function App    () {
             </div>
             <div>
                 <div>
-                    <button disabled={centroControl.play} className="button" onClick={play}>Play</button>
+                    <button disabled={centroControl.play} className="button" onClick={playGame}>Play</button>
                 </div>
                 <div>
                     <button disabled={centroControl.salir} className="button" onClick={changeScene}>Salir</button>

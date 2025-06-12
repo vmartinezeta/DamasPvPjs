@@ -1,4 +1,4 @@
-* {
+*,*::after, *::before {
     margin: 0;
     padding: 0;
     box-sizing: border-box;    
@@ -78,12 +78,28 @@ body {
 
 .intro__control__button {
     border: 0;
-    background: rgba(0, 255, 0, 0.867);
-    padding: 10px 20px;
+    background: rgba(0, 255, 0, 0.778);
+    padding: 8px 20px;
     font-size: 20px;
 }
 
 .intro__control__button:hover {
        background: lime;
        border-radius: 20px;
+}
+
+.intro__centrado {
+    position: relative;
+}
+
+.creditos {
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.creditos__titulo {
+    font-size: 20px;    
 }

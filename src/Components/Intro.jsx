@@ -11,11 +11,21 @@ export default function Intro() {
     }
 
     return <GameProvider>
-        {!abierto && <div className="intro" >
-            <div className="intro__control">
-                <h1 className="intro__titulo">Damas PvP</h1>            
-                <div className="intro__control__input">
-                    <button className="intro__control__button" onClick={toggle}>Continuar</button>
+        {!abierto && <div className="intro">
+            <div className="intro intro__centrado">
+                <div className="intro__main">
+                    <div className="intro__control">
+                        <h1 className="intro__titulo">Damas PvP</h1>
+                        <div className="intro__control__input">
+                            <button className="intro__control__button" onClick={toggle}>Continuar</button>
+                        </div>
+                    </div>
+                </div>
+                <div className="creditos">
+                    <h1 className="creditos__titulo">
+                        &copy; Víctor Martínez
+                        <span></span>
+                    </h1>
                 </div>
             </div>
         </div>}
