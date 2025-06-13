@@ -46,22 +46,49 @@ export class Game extends Scene {
 
     onPieceClicked(_, gameObject) {
         const celda = gameObject.celda
-        if ((!this.jugadorActual.origen && celda.ficha instanceof Espacio)
-            || (this.jugadorActual.ficha.nombre !== celda.ficha.nombre && !(celda.ficha instanceof Espacio))
-        ) {
-            return
+
+        if (this.inicioMovimiento()) {
+            if (this.jugadorActual.ficha.nombre !== celda.ficha.nombre) {
+                return
+            }
+
+            gameObject.setTint(0x00ff00)
+            this.iniciarMovimiento(celda)
+        } else {
+            this.finalizarMovimiento(celda)
+        }
+    }
+
+    inicioMovimiento() {
+        return !this.jugadorActual.origen
+    }
+
+    iniciarMovimiento(celda) {
+        celda.activa = !celda.activa
+        this.jugadorActual.origen = celda
+    }
+
+    finalizarMovimiento(celda) {
+
+        if (celda.activa) {
+            return this.cancelarMovimiento(celda)
         }
 
-        gameObject.setTint(0x00ff00)
-        if (this.jugadorActual.id === 1 && !this.jugador1.origen) {
-            this.jugador1.origen = celda
-        } else if (this.jugadorActual.id === 1 && this.jugador1.origen) {
-            this.colocacion1(celda)
-        } else if (this.jugadorActual.id === 2 && !this.jugador2.origen) {
-            this.jugador2.origen = celda
-        } else if (this.jugadorActual.id === 2 && this.jugador2.origen) {
-            this.colocacion2(celda)
+        if (!(celda.ficha instanceof Espacio)) {
+            return
         }
+        this.jugadorActual.hacerMovimiento(this.cuadricula, celda)
+        this.redibujarTablero()
+        this.jugadorActual.origen.activa = false
+        celda.activa = false
+        this.jugadorActual.origen = null
+        this.cambiarTurno()
+    }
+
+    cancelarMovimiento(celda) {
+        this.redibujarTablero()
+        celda.activa = !celda.activa
+        this.jugadorActual.origen = null
     }
 
     cambiarTurno() {
@@ -70,20 +97,6 @@ export class Game extends Scene {
         } else {
             this.jugadorActual = this.jugador1
         }
-    }
-
-    colocacion1(celda) {
-        this.jugador1.hacerMovimiento(this.cuadricula, celda)
-        this.cambiarTurno()
-        this.redibujarTablero()
-        this.jugador1.origen = null
-    }
-
-    colocacion2(celda) {
-        this.jugador2.hacerMovimiento(this.cuadricula, celda)
-        this.cambiarTurno()
-        this.redibujarTablero()
-        this.jugador2.origen = null
     }
 
     redibujarTablero() {
@@ -107,7 +120,8 @@ export class Game extends Scene {
     }
 
     findBy(nombre) {
-        return this.cuadricula.toArray().filter(({ ficha }) => ficha instanceof Ficha || ficha instanceof SuperFicha).filter(({ ficha }) => ficha.nombre === nombre)
+        return this.cuadricula.toArray()
+            .filter(({ ficha }) => ficha instanceof Ficha || ficha instanceof SuperFicha).filter(({ ficha }) => ficha.nombre === nombre)
     }
 
     changeScene() {

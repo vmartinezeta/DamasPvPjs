@@ -2,6 +2,7 @@ export class Celda {
     constructor(ficha, origen) {
         this.ficha = ficha
         this.origen = origen
+        this.activa = false
     }
 
     clone() {
