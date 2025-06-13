@@ -1,8 +1,7 @@
 import { JugadorFactory } from "./JugadorFactory.js"
-import { SuperFicha } from "./SuperFicha.js"
 
-// movimiento corto
-// movimiento largo cuando se tiene privilegio
+
+
 export class Jugador extends JugadorFactory {
     constructor(id, ficha) {
         super(id, ficha)
@@ -10,10 +9,7 @@ export class Jugador extends JugadorFactory {
 
     hacerMovimiento(cuadricula, destino) {
         if (this.bloqueado) return
-        if (this.ficha instanceof SuperFicha) {
-            // tiene privilegio
-            // validación
-        }
+        // if (this.ficha instanceof SuperFicha) {}
         const final = destino.clone()
         const principio = this.origen.clone()
         const punto = principio.origen

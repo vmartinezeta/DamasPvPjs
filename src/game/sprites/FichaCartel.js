@@ -1,18 +1,19 @@
 import Phaser from "phaser"
 
 export class FichaCartel extends Phaser.GameObjects.Sprite{
-    constructor(scene, origen, texture) {
-        super(scene, origen.x, origen.y, texture)
+    constructor(scene, celda) {
+        super(scene, 84 * celda.origen.y + 192, 75 * celda.origen.x + 38, celda.ficha.nombre)
         this.scene = scene
-        this.texture = texture        
-        // Añadir el sprite a la escena
+        this.texture = celda.ficha.nombre
+        this.celda = celda
+
         scene.add.existing(this)
         scene.physics.world.enable(this)
         this.body.setAllowGravity(false)
-        // Configurar propiedades del sprite
-        this.setOrigin(0.5, 0.5); // Centrar el punto de origen
-        this.setScale(.8); // Escalar el sprite
 
+        this.setOrigin(0.5, 0.5)
+        this.setScale(.8)
+        this.setInteractive()        
     }
 
 }
