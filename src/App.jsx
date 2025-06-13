@@ -5,8 +5,9 @@ import { useGame } from './context/GameContext'
 
 function App    () {
     const [centroControl, setCentroControl] = useState({ play: false, salir: true })
-    const phaserRef = useRef();
+    const phaserRef = useRef()
     const { onToggleMusica, play, setToggleMusica} = useGame()
+
 
     useEffect(()=> {
         play()
@@ -36,8 +37,7 @@ function App    () {
         }
     }
 
-    return (
-        <div id="app">
+    return <div className="app">
             <div className="centro">
                 <PhaserGame ref={phaserRef} currentActiveScene={(scene) => {
                     currentScene(scene)
@@ -55,7 +55,6 @@ function App    () {
                 </div>
             </div>
         </div>
-    )
 }
 
 export default App

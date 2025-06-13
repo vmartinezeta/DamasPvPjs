@@ -5,7 +5,7 @@ import { Vacio } from "./Vacio.js"
 export class Cuadricula {
     constructor(negro, blanco, espacio) {
         this.celdas = []
-        let estaVacio = false
+        let estaVacio = true
         for (let i = 0; i < 8; i++) {
             const linea = []
             for (let j = 0; j < 8; j++) {
@@ -32,22 +32,6 @@ export class Cuadricula {
 
     fromXY(x, y) {
         return this.celdas[x][y]
-    }
-
-    toString() {
-        let tablero = ""
-        for (let i = 0; i < 8; i++) {
-            let linea = ""
-            for (let j = 0; j < 8; j++) {
-                if (this.fromXY(i, j) instanceof Vacio) {
-                    linea += "\t"
-                } else {
-                    linea += this.celdas[i][j].ficha.nombre
-                }
-            }
-            tablero += linea + "\n"
-        }
-        return tablero
     }
 
     toArray() {

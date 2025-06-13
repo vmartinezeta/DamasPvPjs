@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Intro from './Components/Intro';
+import IntroConEfecto from './Components/IntroConEfecto';
+
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <Intro />
+        <IntroConEfecto />
     </React.StrictMode>,
 )

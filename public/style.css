@@ -10,13 +10,17 @@ body {
     min-height: 100vh;
 }
 
-#app {
+.app {
     width: 100%;
     height: 100vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: intro 1s 1 reverse;
+    opacity: 1;
+    position: absolute;
+    top: 0;
 }
 
 .button {
@@ -61,7 +65,7 @@ body {
 .intro__titulo {
     color: #000000;
     text-align: center;
-    font-size: 30px;
+    font-size: 34px;
     height: max-content;
 }
 
@@ -77,10 +81,11 @@ body {
 }
 
 .intro__control__button {
+    margin-top: 10px;
     border: 0;
     background: rgba(0, 255, 0, 0.778);
-    padding: 8px 20px;
-    font-size: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
 }
 
 .intro__control__button:hover {
@@ -95,11 +100,17 @@ body {
 .creditos {
     width: 100%;
     position: absolute;
-    bottom: 10px;
+    bottom: 20px;
     display: flex;
     justify-content: center;
 }
 
 .creditos__titulo {
     font-size: 20px;    
+}
+
+@keyframes intro {
+    to {
+        top: -100%;
+    }
 }

@@ -1,17 +1,9 @@
-import { useState } from "react";
-import App from "../App";
-import { GameProvider } from "../context/GameContext";
+import App from "../App"
 
-
-export default function Intro() {
-    const [abierto, setAbierto] = useState(false)
-
-    const toggle = () => {
-        setAbierto(!abierto)
-    }
-
-    return <GameProvider>
-        {!abierto && <div className="intro">
+// eslint-disable-next-line react/prop-types
+function Intro({abierto, toggle}) {
+    if (abierto) {
+    return <div className="intro">
             <div className="intro intro__centrado">
                 <div className="intro__main">
                     <div className="intro__control">
@@ -28,7 +20,10 @@ export default function Intro() {
                     </h1>
                 </div>
             </div>
-        </div>}
-        {abierto && <App />}
-    </GameProvider>
+        </div>
+    }
+
+    return <App />
 }
+
+export default Intro
