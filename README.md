@@ -1,14 +1,17 @@
 Iniciar la aplicación
 clonar el repositorio de github
-git clone 
-cambiar al directorio /damasPvP
-cd /damasPvP
-installar dependecias
+git clone https://github.com/vmartinezeta/DamasPvPjs.git
+cambiar al directorio /DamasPvPjs
+cd /DamasPvPjs
+installar dependencias
 npm install
 levantar el servidor de desarrollo
 npm run dev
 Abrir el navegador favorito
 Ingresar la url http://localhost:8080
+listo!
+
+
 
 
 ## React Bridge
