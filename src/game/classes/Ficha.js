@@ -4,11 +4,12 @@ import { SuperFicha } from "./SuperFicha.js"
 
 export class Ficha extends FichaFactory {
     constructor(id, nombre) {
-        super(id, nombre)
+        super(nombre)
+        this.id = id
     }
 
     subir(nombre) {
-        return new SuperFicha(nombre)
+        return new SuperFicha(this.id, nombre)
     }
 
     bajar(nombre) {

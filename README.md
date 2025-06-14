@@ -1,56 +1,15 @@
-# Phaser React Template
+Iniciar la aplicación
+clonar el repositorio de github
+git clone 
+cambiar al directorio /damasPvP
+cd /damasPvP
+installar dependecias
+npm install
+levantar el servidor de desarrollo
+npm run dev
+Abrir el navegador favorito
+Ingresar la url http://localhost:8080
 
-This is a Phaser 3 project template that uses the React framework and Vite for bundling. It includes a bridge for React to Phaser game communication, hot-reloading for quick development workflow and scripts to generate production-ready builds.
-
-**[This Template is also available as a TypeScript version.](https://github.com/phaserjs/template-react-ts)**
-
-### Versions
-
-This template has been updated for:
-
-- [Phaser 3.87.0](https://github.com/phaserjs/phaser)
-- [React 18.3.1](https://github.com/facebook/react)
-- [Vite 5.3.1](https://github.com/vitejs/vite)
-
-![screenshot](screenshot.png)
-
-## Requirements
-
-[Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
-
-## Available Commands
-
-| Command | Description |
-|---------|-------------|
-| `npm install` | Install project dependencies |
-| `npm run dev` | Launch a development web server |
-| `npm run build` | Create a production build in the `dist` folder |
-| `npm run dev-nolog` | Launch a development web server without sending anonymous data (see "About log.js" below) |
-| `npm run build-nolog` | Create a production build in the `dist` folder without sending anonymous data (see "About log.js" below) |
-
-## Writing Code
-
-After cloning the repo, run `npm install` from your project directory. Then, you can start the local development server by running `npm run dev`.
-
-The local development server runs on `http://localhost:8080` by default. Please see the Vite documentation if you wish to change this, or add SSL support.
-
-Once the server is running you can edit any of the files in the `src` folder. Vite will automatically recompile your code and then reload the browser.
-
-## Template Project Structure
-
-We have provided a default project structure to get you started. This is as follows:
-
-- `index.html` - A basic HTML page to contain the game.
-- `src` - Contains the React client source code.
-- `src/main.jsx` - The main **React** entry point. This bootstraps the React application.
-- `src/App.jsx` - The main React component.
-- `src/game/PhaserGame.jsx` - The React component that initializes the Phaser Game and serve like a bridge between React and Phaser.
-- `src/game/EventBus.js` - A simple event bus to communicate between React and Phaser.
-- `src/game` - Contains the game source code.
-- `src/game/main.jsx` - The main **game** entry point. This contains the game configuration and start the game.
-- `src/game/scenes/` - The Phaser Scenes are in this folder.
-- `public/style.css` - Some simple CSS rules to help with page layout.
-- `public/assets` - Contains the static assets used by the game.
 
 ## React Bridge
 

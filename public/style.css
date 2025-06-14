@@ -50,10 +50,10 @@ body {
     }
 }
 
+
 .intro {
     width: 500px;
     height: 500px;
-    background: #fff;
     position: absolute;
     inset: 0;
     margin: auto;
@@ -62,11 +62,72 @@ body {
     align-items: center;
 }
 
+.intro__animado {
+    position: absolute;
+    width: 80%;
+    height: 100%;    
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.intro__animado::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(
+        45deg,
+        #ff0000, #ff7300, #fffb00, #48ff00,
+        #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000
+    );
+    background-size: 400%;
+    border-radius: 15px;
+    z-index: -1;
+    animation: animarBorde 8s linear infinite;
+    filter: blur(8px);
+}
+
+.dos {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(90deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+    animation: neonBorder 3s linear infinite;
+    background-size: 400%;
+    border-radius: 15px;
+    z-index: -1;    
+}
+
+.tres {
+    border: 2px dashed transparent;
+    animation: puntosMoviles 4s linear infinite;
+}
+
+.cuatro {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    animation: latido 2s infinite;
+}
+
+.intro__animado:hover::before{
+    animation-duration: 4s;
+}
+
+
 .intro__titulo {
     color: #000000;
     text-align: center;
     font-size: 34px;
     height: max-content;
+    animation: glitch 2s infinite;    
 }
 
 .intro__subtitulo {
@@ -83,14 +144,15 @@ body {
 .intro__control__button {
     margin-top: 10px;
     border: 0;
-    background: rgba(0, 255, 0, 0.778);
+    background: #00e5c0;
     padding: 10px 20px;
     font-size: 18px;
+    border-radius: 20px;
 }
 
 .intro__control__button:hover {
-       background: lime;
-       border-radius: 20px;
+       background: #00e5c0a3;
+       border-radius: 0;
 }
 
 .intro__centrado {
@@ -100,13 +162,26 @@ body {
 .creditos {
     width: 100%;
     position: absolute;
-    bottom: 20px;
+    bottom: 0;
     display: flex;
     justify-content: center;
 }
 
 .creditos__titulo {
-    font-size: 20px;    
+    font-size: 20px;   
+}
+
+
+@keyframes animarBorde {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 400% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
 }
 
 @keyframes intro {

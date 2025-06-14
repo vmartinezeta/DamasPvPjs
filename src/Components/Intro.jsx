@@ -3,7 +3,7 @@ import App from "../App"
 // eslint-disable-next-line react/prop-types
 function Intro({abierto, toggle}) {
     if (abierto) {
-    return <div className="intro">
+    return <div className="intro intro__animado">
             <div className="intro intro__centrado">
                 <div className="intro__main">
                     <div className="intro__control">
