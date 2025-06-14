@@ -24,4 +24,6 @@ export class Jugador extends JugadorFactory {
         destino.ficha = ficha.bajar()
         cuadricula.updateCelda(destino)
     }
+
+    
 }

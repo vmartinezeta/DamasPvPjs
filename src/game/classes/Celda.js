@@ -1,11 +1,11 @@
 export class Celda {
-    constructor(ficha, origen) {
+    constructor(ficha, origen, activa) {
         this.ficha = ficha
         this.origen = origen
-        this.activa = false
+        this.activa = activa || false
     }
 
     clone() {
-        return new Celda(this.ficha, this.origen)
+        return new Celda(this.ficha, this.origen, this.activa)
     }
 }

@@ -10,11 +10,11 @@ export class Cuadricula {
             const linea = []
             for (let j = 0; j < 8; j++) {
                 if (i < 3 && !estaVacio) {
-                    linea.push(new Celda(negro, new Punto(i, j)))
+                    linea.push(new Celda(negro.clone(), new Punto(i, j)))
                 } else if (i > 2 && i < 5 && !estaVacio) {
                     linea.push(new Celda(espacio, new Punto(i, j)))
                 } else if (i > 4 && !estaVacio) {
-                    linea.push(new Celda(blanco, new Punto(i, j)))
+                    linea.push(new Celda(blanco.clone(), new Punto(i, j)))
                 } else {
                     linea.push(new Vacio())
                 }

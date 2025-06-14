@@ -7,6 +7,8 @@ import { Espacio } from '../classes/Espacio'
 import { Vacio } from '../classes/Vacio'
 import { Jugador } from '../classes/Jugador'
 import { SuperFicha } from '../classes/SuperFicha'
+import { SistemaVision } from '../classes/SistemaVision'
+import Resume from '../sprites/Resume'
 
 export class Game extends Scene {
     constructor() {
@@ -25,28 +27,18 @@ export class Game extends Scene {
         this.physics.world.setBounds(0, 0, 1024, 600)
         this.add.sprite(250, 0, 'tablero').setOrigin(0)
 
-        const negro = new Ficha(1, "ficha-roja")
-        const blanca = new Ficha(2, "ficha-amarilla")
+        const sistema = new SistemaVision()
+        const negro = new Ficha(1, "ficha-roja", sistema)
+        const blanca = new Ficha(2, "ficha-amarilla", sistema.rotar())
         const espacio = new Espacio("ficha-espacio")
         this.cuadricula = new Cuadricula(negro, blanca, espacio)
         this.jugador1 = new Jugador(1, negro)
         this.jugador2 = new Jugador(2, blanca)
         this.jugadorActual = this.jugador1
 
-
-        this.add.sprite(60, 100, negro.nombre).setOrigin(0.5)
-        this.add.sprite(160, 100, blanca.nombre).setOrigin(0.5)
-        this.add.text(60, 100, this.findBy(1).length, {
-            fontFamily: 'Arial Black', fontSize: 18, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 10,
-            align: 'center'
-        }).setOrigin(0.5).setDepth(100)
-
-        this.add.text(160, 100, this.findBy(1).length, {
-            fontFamily: 'Arial Black', fontSize: 18, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 10,
-            align: 'center'
-        }).setOrigin(0.5).setDepth(100)
+        const sprite1 = this.add.sprite(60, 100, negro.nombre).setOrigin(0.5)
+        const sprite2 = this.add.sprite(160, 100, blanca.nombre).setOrigin(0.5)
+        new Resume(this, [sprite1, sprite2], null, 12, 12)
 
         this.add.text(60, 260, "Turno: ", {
             fontFamily: 'Arial Black', fontSize: 26, color: '#ffffff',
@@ -129,7 +121,6 @@ export class Game extends Scene {
             this.tablero = this.add.group()
         }
         for (const celda of this.cuadricula.toArray().filter(c => !(c instanceof Vacio))) {
-            console.log(celda)
             this.tablero.add(new FichaCartel(this, celda))
         }
 
