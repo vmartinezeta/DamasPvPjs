@@ -34,6 +34,10 @@ export class Cuadricula {
         return this.celdas[x][y]
     }
 
+    fromPunto(origen) {
+        return this.fromXY(origen.x, origen.y)
+    }
+
     toArray() {
         const celdas = []
         for (let i = 0; i < 8; i++) {
