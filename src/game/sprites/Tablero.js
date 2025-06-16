@@ -61,17 +61,13 @@ export default class Tablero extends Phaser.GameObjects.Container {
                     this.cellSize - 2,
                     this.cellSize - 2,
                     (x + y) % 2 === 0 ? 0xFFFFFF : 0x000000
-                ).setInteractive();
+                )
                 celda.setOrigin(0)
                 celda.on('pointerdown', () => this.onCeldaClick(x, y));
                 this.add(celda); // Añade al Container
                 this.celdas[y][x] = celda;
             }
         }
-    }
-
-    onCeldaClick(x, y) {
-        console.log({ x, y })
     }
 
     crearFichasIniciales() {
@@ -82,7 +78,7 @@ export default class Tablero extends Phaser.GameObjects.Container {
         }
     }
 
-    rotar() {
+    rotar(callback) {
         this.cuadricula.rotarMatriz180()
 
         this.scene.tweens.add({
@@ -90,7 +86,10 @@ export default class Tablero extends Phaser.GameObjects.Container {
             angle: this.angle + 180,
             duration: 1000,
             ease: 'Sine.InOut',
-            onComplete: () => this.actualizarPosicionesFichas()
+            onComplete: () => {
+                this.actualizarPosicionesFichas()
+                callback()
+            }
         });
     }
 
@@ -107,7 +106,6 @@ export default class Tablero extends Phaser.GameObjects.Container {
                 duration: 300,
                 ease: 'Power2'
             });
-
         }
      
     }

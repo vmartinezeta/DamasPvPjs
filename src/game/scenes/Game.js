@@ -86,7 +86,6 @@ export class Game extends Scene {
 
     finalizarMovimiento(gameObject) {
         const celda = gameObject.celda
-
         if (celda.activa) {
             return this.cancelarMovimiento(gameObject)
         }
@@ -96,10 +95,10 @@ export class Game extends Scene {
         }
 
         this.jugadorActual.hacerMovimiento(this.cuadricula, celda)
-        this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
         celda.activa = !celda.activa
         this.jugadorActual.origen = null
         this.cambiarTurno()
+        // this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
         this.turnoCartel.destroy()
         this.turnoCartel = this.add.sprite(160, 260, this.jugadorActual.ficha.nombre).setOrigin(0.5)
     }
@@ -117,7 +116,9 @@ export class Game extends Scene {
         } else {
             this.jugadorActual = this.jugador1
         }
-
+        this.tablero.rotar(()=> {
+            this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
+        })
     }
 
     finalizo() {
