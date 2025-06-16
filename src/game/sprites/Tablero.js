@@ -95,14 +95,13 @@ export default class Tablero extends Phaser.GameObjects.Container {
 
     actualizarPosicionesFichas() {
         for (const celda of this.cuadricula.toArray().filter(c => !(c instanceof Vacio))) {
-            const origen = celda.origen
-            const cartel = this.fichas.find(f => f.getData(origen.toString()))
-            const x = 100 * celda.origen.y + 50
-            const y = 100 * celda.origen.x + 50
+            const origen = celda.ubicacion.virtual
+            const cartel = this.fichas.find(f => f.key === origen.toString())
+            const {x, y} = celda.ubicacion.fisica
             this.scene.tweens.add({
                 targets: cartel,
-                x: x,
-                y: y,
+                x,
+                y,
                 duration: 300,
                 ease: 'Power2'
             });

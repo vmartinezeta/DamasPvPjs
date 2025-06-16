@@ -8,13 +8,12 @@ export class Jugador extends JugadorFactory {
 
     hacerMovimiento(cuadricula, destino) {
         if (this.bloqueado) return
-        // if (this.ficha instanceof SuperFicha) {}
         const final = destino.clone()
         const principio = this.origen.clone()
-        const punto = principio.origen
-        principio.origen = final.origen
+        const ubicacion = principio.ubicacion
+        principio.ubicacion = final.ubicacion
         cuadricula.updateCelda(principio)
-        final.origen = punto
+        final.ubicacion = ubicacion
         cuadricula.updateCelda(final)
     }
 

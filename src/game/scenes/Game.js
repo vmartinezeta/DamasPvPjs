@@ -30,10 +30,10 @@ export class Game extends Scene {
         const negro = new Ficha(1, "ficha-roja", sistema)
         const blanca = new Ficha(2, "ficha-amarilla", sistema.rotar())
         const espacio = new Espacio("ficha-espacio")
-        this.cuadricula = new Cuadricula(negro, blanca, espacio)
+        this.cuadricula = new Cuadricula(negro, blanca, espacio, new Punto(50,50), 100)
         this.jugador1 = new Jugador(1, negro)
         this.jugador2 = new Jugador(2, blanca)
-        this.jugadorActual = this.jugador1
+        this.jugadorActual = this.jugador2
 
         const sprite1 = this.add.sprite(60, 100, negro.nombre).setOrigin(0.5)
         const sprite2 = this.add.sprite(160, 100, blanca.nombre).setOrigin(0.5)
@@ -98,7 +98,10 @@ export class Game extends Scene {
         celda.activa = !celda.activa
         this.jugadorActual.origen = null
         this.cambiarTurno()
-        // this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
+        this.tablero.rotar(() => {
+            this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
+        })
+
         this.turnoCartel.destroy()
         this.turnoCartel = this.add.sprite(160, 260, this.jugadorActual.ficha.nombre).setOrigin(0.5)
     }
@@ -116,9 +119,6 @@ export class Game extends Scene {
         } else {
             this.jugadorActual = this.jugador1
         }
-        this.tablero.rotar(()=> {
-            this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
-        })
     }
 
     finalizo() {
