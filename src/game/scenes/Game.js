@@ -1,14 +1,14 @@
 import { Scene } from 'phaser'
 import { EventBus } from '../EventBus'
-import { FichaCartel } from '../sprites/FichaCartel'
 import { Cuadricula } from '../classes/Cuadricula'
 import { Ficha } from '../classes/Ficha'
 import { Espacio } from '../classes/Espacio'
-import { Vacio } from '../classes/Vacio'
 import { Jugador } from '../classes/Jugador'
 import { SuperFicha } from '../classes/SuperFicha'
 import { SistemaVision } from '../classes/SistemaVision'
 import Resume from '../sprites/Resume'
+import Tablero from '../sprites/Tablero'
+import { Punto } from '../classes/Punto'
 
 export class Game extends Scene {
     constructor() {
@@ -25,7 +25,6 @@ export class Game extends Scene {
     create() {
         this.add.image(512, 384, 'background')
         this.physics.world.setBounds(0, 0, 1024, 600)
-        this.add.sprite(250, 0, 'tablero').setOrigin(0)
 
         const sistema = new SistemaVision()
         const negro = new Ficha(1, "ficha-roja", sistema)
@@ -45,11 +44,16 @@ export class Game extends Scene {
             stroke: '#000000', strokeThickness: 10,
             align: 'center'
         }).setOrigin(0.5).setDepth(100)
-        
+
         this.turnoCartel = this.add.sprite(160, 260, this.jugadorActual.ficha.nombre).setOrigin(0.5)
 
-        this.tablero = this.add.group()
-        this.redibujarTablero()
+        this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
+
+        // En create():
+        this.cameras.main.setBounds(0, 0, 800, 600); // Ajusta al tamaño del juego
+        this.physics.world.setBounds(0, 0, 800, 600);
+
+        
 
         this.input.mouse.disableContextMenu()
 
@@ -92,7 +96,7 @@ export class Game extends Scene {
         }
 
         this.jugadorActual.hacerMovimiento(this.cuadricula, celda)
-        this.redibujarTablero()
+        this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
         celda.activa = !celda.activa
         this.jugadorActual.origen = null
         this.cambiarTurno()
@@ -112,16 +116,6 @@ export class Game extends Scene {
             this.jugadorActual = this.jugador2
         } else {
             this.jugadorActual = this.jugador1
-        }
-    }
-
-    redibujarTablero() {
-        if (this.tablero) {
-            this.tablero.destroy()
-            this.tablero = this.add.group()
-        }
-        for (const celda of this.cuadricula.toArray().filter(c => !(c instanceof Vacio))) {
-            this.tablero.add(new FichaCartel(this, celda))
         }
 
     }
