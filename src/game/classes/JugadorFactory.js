@@ -1,6 +1,5 @@
 export class JugadorFactory {
-    constructor(id, ficha) {
-        this.id = id
+    constructor(ficha) {
         this.ficha = ficha
         this.bloqueado = false
         this.origen = null

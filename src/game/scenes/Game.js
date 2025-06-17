@@ -5,10 +5,11 @@ import { Ficha } from '../classes/Ficha'
 import { Espacio } from '../classes/Espacio'
 import { Jugador } from '../classes/Jugador'
 import { SuperFicha } from '../classes/SuperFicha'
-import { SistemaVision } from '../classes/SistemaVision'
 import Resume from '../sprites/Resume'
 import Tablero from '../sprites/Tablero'
 import { Punto } from '../classes/Punto'
+import TableroTurno from '../sprites/TableroTurno'
+import { SistemaVision } from '../classes/SistemaVision'
 
 export class Game extends Scene {
     constructor() {
@@ -30,30 +31,17 @@ export class Game extends Scene {
         const negro = new Ficha(1, "ficha-roja", sistema)
         const blanca = new Ficha(2, "ficha-amarilla", sistema.rotar())
         const espacio = new Espacio("ficha-espacio")
-        this.cuadricula = new Cuadricula(negro, blanca, espacio, new Punto(50,50), 100)
-        this.jugador1 = new Jugador(1, negro)
-        this.jugador2 = new Jugador(2, blanca)
+        this.cuadricula = new Cuadricula(negro, blanca, espacio, new Punto(50, 50), 100)
+        this.jugador1 = new Jugador(negro)
+        this.jugador2 = new Jugador(blanca)
         this.jugadorActual = this.jugador2
 
-        const sprite1 = this.add.sprite(60, 100, negro.nombre).setOrigin(0.5)
-        const sprite2 = this.add.sprite(160, 100, blanca.nombre).setOrigin(0.5)
-        new Resume(this, [sprite1, sprite2], null, 12, 12)
+        this.resume = new Resume(this, new Punto(60, 100), 12, 12)
 
-        this.add.text(60, 260, "Turno: ", {
-            fontFamily: 'Arial Black', fontSize: 26, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 10,
-            align: 'center'
-        }).setOrigin(0.5).setDepth(100)
-
-        this.turnoCartel = this.add.sprite(160, 260, this.jugadorActual.ficha.nombre).setOrigin(0.5)
-
+        this.tableroTurno = new TableroTurno(this, new Punto(160, 260), this.jugadorActual.ficha.id)
         this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
 
-        // En create():
         this.cameras.main.setBounds(0, 0, 800, 600); // Ajusta al tamaño del juego
-        this.physics.world.setBounds(0, 0, 800, 600);
-
-        
 
         this.input.mouse.disableContextMenu()
 
@@ -102,8 +90,7 @@ export class Game extends Scene {
             this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
         })
 
-        this.turnoCartel.destroy()
-        this.turnoCartel = this.add.sprite(160, 260, this.jugadorActual.ficha.nombre).setOrigin(0.5)
+        this.tableroTurno.updateTablero(this.jugadorActual.ficha.id)
     }
 
     cancelarMovimiento(gameObject) {
@@ -114,7 +101,7 @@ export class Game extends Scene {
     }
 
     cambiarTurno() {
-        if (this.jugadorActual.id === this.jugador1.id) {
+        if (this.jugadorActual.ficha.id === this.jugador1.ficha.id) {
             this.jugadorActual = this.jugador2
         } else {
             this.jugadorActual = this.jugador1

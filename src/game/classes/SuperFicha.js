@@ -1,10 +1,8 @@
-import { FichaFactory } from "./FichaFactory.js"
+import { FichaDireccional } from "./FichaDireccional"
 
-export class SuperFicha extends FichaFactory {
+export class SuperFicha extends FichaDireccional {
     constructor(id, nombre, sistemaVision) {
-        super(nombre)
-        this.id = id
-        this.sistemaVision = sistemaVision
+        super(id, nombre, sistemaVision)
         this.reina = true
     }
 

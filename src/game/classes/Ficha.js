@@ -1,12 +1,10 @@
 import { Espacio } from "./Espacio.js"
-import { FichaFactory } from "./FichaFactory.js"
+import { FichaDireccional } from "./FichaDireccional.js"
 import { SuperFicha } from "./SuperFicha.js"
 
-export class Ficha extends FichaFactory {
+export class Ficha extends FichaDireccional {
     constructor(id, nombre, sistemaVision) {
-        super(nombre)
-        this.id = id
-        this.sistemaVision = sistemaVision
+        super(id, nombre, sistemaVision)
     }
 
     subir(nombre) {
@@ -19,6 +17,7 @@ export class Ficha extends FichaFactory {
     }
 
     clone() {
-        return new Ficha(this.id, this.nombre, this.sistemaVision)
+        return new Ficha(this.id, this.nombre)
     }
+
 }

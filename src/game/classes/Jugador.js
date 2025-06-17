@@ -2,8 +2,8 @@ import { JugadorFactory } from "./JugadorFactory.js"
 
 
 export class Jugador extends JugadorFactory {
-    constructor(id, ficha) {
-        super(id, ficha)
+    constructor(ficha) {
+        super(ficha)
     }
 
     hacerMovimiento(cuadricula, destino) {
