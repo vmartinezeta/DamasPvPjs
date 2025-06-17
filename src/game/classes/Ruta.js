@@ -25,4 +25,8 @@ export class Ruta {
     tieneKO() {
         this.totalKO > 0
     }
+
+    last() {
+        return this.celdas[this.celdas.length-1]
+    }
 }

@@ -1,3 +1,5 @@
+import { Ruta } from "./Ruta"
+
 export class Trayectoria {
     constructor(vector, subVector, celdaGiro, segmentos, final) {
         this.vector = vector
@@ -6,4 +8,10 @@ export class Trayectoria {
         this.segmentos = segmentos
         this.final = final || false
     }
+
+    puedeGirar() {        
+        const ruta = new Ruta(this.segmentos)
+        return ruta.tieneKO()
+    }
+
 }

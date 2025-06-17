@@ -7,12 +7,12 @@ export class MiniSegmento extends SegmentoFactory {
         super(celdas)
     }
 
-    valido() {
+    isValido() {
         if(this.celdas.length !== 2) {
             return false
         }
 
-        const celda = this.celdas.pop()
+        const celda = this.celdas[this.celdas.length-1]
         if (!(celda.ficha instanceof Espacio)) {
             return false
         }
@@ -24,8 +24,8 @@ export class MiniSegmento extends SegmentoFactory {
             return false
         }
 
-        const der = this.celdas.pop()
-        const izq = this.celdas.pop()
+        const der = this.celdas[0]
+        const izq = this.celdas[1]
         if (der.ficha instanceof Ficha && der.ficha.id === izq.ficha.id) {
             return false
         }

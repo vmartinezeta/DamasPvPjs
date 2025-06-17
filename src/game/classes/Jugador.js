@@ -1,3 +1,4 @@
+import { Ficha } from "./Ficha.js"
 import { JugadorFactory } from "./JugadorFactory.js"
 
 
@@ -17,11 +18,18 @@ export class Jugador extends JugadorFactory {
         cuadricula.updateCelda(final)
     }
 
-    hacerMovConKO(cuadricula, destino) {
+    hacerMovConKO(cuadricula, ruta) {
+        const celdas = ruta.celdas
+        for(const celda of celdas) {
+            const ficha = celda.ficha
+            if (ficha instanceof Ficha) {
+                celda.ficha = ficha.bajar("ficha-espacio")
+                cuadricula.updateCelda(celda)
+            }
+        }
+
+        const destino = ruta.celdas[ruta.celdas.length-1]
         this.hacerMovimiento(cuadricula, destino)
-        const ficha = destino.ficha
-        destino.ficha = ficha.bajar()
-        cuadricula.updateCelda(destino)
     }
 
     

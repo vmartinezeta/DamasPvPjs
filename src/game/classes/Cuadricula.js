@@ -1,12 +1,14 @@
 import { Celda } from "./Celda.js"
+import { Ficha } from "./Ficha.js"
 import { Punto } from "./Punto.js"
+import { SuperFicha } from "./SuperFicha.js"
 import { Ubicacion } from "./Ubicacion.js"
 import { Vacio } from "./Vacio.js"
 
 export class Cuadricula {
     constructor(negro, blanco, espacio, origen, separacion) {
         this.origen = origen
-        this.separacion =separacion        
+        this.separacion = separacion        
         this.celdas = []
         let estaVacio = true
         for (let i = 0; i < 8; i++) {
@@ -63,6 +65,10 @@ export class Cuadricula {
                 const x1 = this.separacion * j + this.origen.x
                 const y1 = this.separacion * i + this.origen.y
                 celda.ubicacion = new Ubicacion(new Punto(i, j), new Punto(x1, y1))
+                const ficha = celda.ficha
+                if (ficha instanceof Ficha || ficha instanceof SuperFicha) {
+                    celda.ficha.sistemaVision = ficha.sistemaVision.rotar()
+                }
                 nuevaMatriz[i][j] = celda
             }
         }

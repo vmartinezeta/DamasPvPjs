@@ -17,7 +17,7 @@ export class Ficha extends FichaDireccional {
     }
 
     clone() {
-        return new Ficha(this.id, this.nombre)
+        return new Ficha(this.id, this.nombre, this.sistemaVision)
     }
 
 }

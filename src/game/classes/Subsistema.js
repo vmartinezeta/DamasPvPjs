@@ -6,4 +6,8 @@ export class SubSistemaVision {
         this.sistema.push(izq)
         this.sistema.push(der)
     }
+
+    toArray() {
+        return this.sistema
+    }
 }

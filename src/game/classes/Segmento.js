@@ -7,7 +7,7 @@ export class Segmento extends SegmentoFactory{
         super(celdas)
     }
 
-    valido() {
+    isValido() {
         if (this.celdas.length !== 3) {
             return false
         }
@@ -16,7 +16,7 @@ export class Segmento extends SegmentoFactory{
             return false
         }
 
-        const celda = this.celda.pop()
+        const celda = this.celdas[this.celdas.length-1]
         if (!(celda.ficha instanceof Espacio)) {
             return false
         }

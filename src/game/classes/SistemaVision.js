@@ -6,14 +6,15 @@ export class SistemaVision {
         this.sistema = []
         this.sistema.push(new SubSistemaVision(
             "FRONTAL",
-            new Punto(-1, 1),
             new Punto(1, 1),
+            new Punto(1, -1),
             true
         ))
+
         this.sistema.push(new SubSistemaVision(
             "TRASERA",
             new Punto(-1, -1),
-            new Punto(1, -1)
+            new Punto(-1, 1)            
         ))
     }
 

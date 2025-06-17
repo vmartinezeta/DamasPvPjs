@@ -10,6 +10,8 @@ import Tablero from '../sprites/Tablero'
 import { Punto } from '../classes/Punto'
 import TableroTurno from '../sprites/TableroTurno'
 import { SistemaVision } from '../classes/SistemaVision'
+import { SistemaRuta } from '../classes/SistemaRuta'
+
 
 export class Game extends Scene {
     constructor() {
@@ -41,6 +43,8 @@ export class Game extends Scene {
         this.tableroTurno = new TableroTurno(this, new Punto(160, 260), this.jugadorActual.ficha.id)
         this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
 
+        this.rutas = []
+
         this.cameras.main.setBounds(0, 0, 800, 600); // Ajusta al tamaño del juego
 
         this.input.mouse.disableContextMenu()
@@ -66,7 +70,9 @@ export class Game extends Scene {
             || (celda.ficha instanceof Ficha && this.jugadorActual.ficha.id !== celda.ficha.id)) {
             return
         }
-
+        const sistema = new SistemaRuta(this.cuadricula, celda)
+        this.rutas = sistema.generar()
+        
         gameObject.setTint(0x00ff00)
         celda.activa = !celda.activa
         this.jugadorActual.origen = celda
@@ -82,7 +88,12 @@ export class Game extends Scene {
             return
         }
 
-        this.jugadorActual.hacerMovimiento(this.cuadricula, celda)
+        for(const ruta of this.rutas) {
+            if (!ruta.tieneKO()) {
+                this.jugadorActual.hacerMovimiento(this.cuadricula, ruta.last())
+            }
+        }
+        this.rutas = []
         celda.activa = !celda.activa
         this.jugadorActual.origen = null
         this.cambiarTurno()
