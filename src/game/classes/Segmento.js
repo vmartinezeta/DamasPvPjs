@@ -11,15 +11,17 @@ export class Segmento extends SegmentoFactory{
         if (this.celdas.length !== 3) {
             return false
         }
+
         const corto = new MiniSegmento(this.celdas.filter((_, idx)=> idx<2))
-        if (!corto.isOpuesta()) {
+        if (corto.isValido() && !corto.isOpuesta()) {
             return false
         }
 
         const celda = this.celdas[this.celdas.length-1]
-        if (!(celda.ficha instanceof Espacio)) {
-            return false
-        }
-        return true
+        return celda.ficha instanceof Espacio
+    }
+
+    last() {
+        return this.celdas[this.celdas.length-1]
     }
 }

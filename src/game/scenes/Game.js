@@ -23,6 +23,7 @@ export class Game extends Scene {
         this.jugadorActual = null
         this.empate = false
         this.turnoCartel = null
+        this.rutas = []
     }
 
     create() {
@@ -42,8 +43,6 @@ export class Game extends Scene {
 
         this.tableroTurno = new TableroTurno(this, new Punto(160, 260), this.jugadorActual.ficha.id)
         this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
-
-        this.rutas = []
 
         this.cameras.main.setBounds(0, 0, 800, 600); // Ajusta al tamaño del juego
 
@@ -88,16 +87,20 @@ export class Game extends Scene {
             return
         }
 
-        for(const ruta of this.rutas) {
-            if (!ruta.tieneKO()) {
-                this.jugadorActual.hacerMovimiento(this.cuadricula, ruta.last())
-            }
+        const ruta = this.rutas.find(r => r.lastCelda().ubicacion.virtual.toString() === celda.ubicacion.virtual.toString())
+        if (ruta.tieneKO()) {
+            this.jugadorActual.hacerMovConKO(this.cuadricula, ruta)
+        } else {
+            this.jugadorActual.hacerMovimiento(this.cuadricula, celda)
         }
+
         this.rutas = []
         celda.activa = !celda.activa
         this.jugadorActual.origen = null
         this.cambiarTurno()
+
         this.tablero.rotar(() => {
+            this.tablero.destroy()
             this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
         })
 

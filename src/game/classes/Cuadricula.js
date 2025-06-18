@@ -65,9 +65,9 @@ export class Cuadricula {
                 const x1 = this.separacion * j + this.origen.x
                 const y1 = this.separacion * i + this.origen.y
                 celda.ubicacion = new Ubicacion(new Punto(i, j), new Punto(x1, y1))
-                const ficha = celda.ficha
-                if (ficha instanceof Ficha || ficha instanceof SuperFicha) {
-                    celda.ficha.sistemaVision = ficha.sistemaVision.rotar()
+                // const ficha = celda.ficha
+                if (celda instanceof Celda && celda.ficha instanceof Ficha || celda.ficha instanceof SuperFicha) {
+                    celda.ficha.sistemaVision = celda.ficha.sistemaVision.rotar()
                 }
                 nuevaMatriz[i][j] = celda
             }

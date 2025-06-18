@@ -18,6 +18,7 @@ export class SistemaRuta {
                 }
             }
         }
+
         return trayectorias.map(t => new Ruta(t.segmentos))
     }
 }

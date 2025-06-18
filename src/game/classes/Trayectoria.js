@@ -14,4 +14,11 @@ export class Trayectoria {
         return ruta.tieneKO()
     }
 
+    getBrotes() {
+        const brotes = []
+        for(const s of this.segmentos) {
+            brotes.push(s.last())
+        }
+        return brotes
+    }
 }

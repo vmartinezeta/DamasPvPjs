@@ -17,16 +17,18 @@ export class Ruta {
             if (this.celdas.length === 0) {
                 this.celdas = [...s.celdas]
             } else {
-                this.celdas = [...this.this.celdas, ...s.celdas.shift()]
+                const celdas = s.celdas
+                celdas.shift()
+                this.celdas = [...this.celdas, ...celdas]
             }
         }
     }
 
     tieneKO() {
-        this.totalKO > 0
+        return this.totalKO > 0
     }
 
-    last() {
+    lastCelda() {
         return this.celdas[this.celdas.length-1]
     }
 }

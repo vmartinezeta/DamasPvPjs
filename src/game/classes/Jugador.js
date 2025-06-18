@@ -22,13 +22,14 @@ export class Jugador extends JugadorFactory {
         const celdas = ruta.celdas
         for(const celda of celdas) {
             const ficha = celda.ficha
-            if (ficha instanceof Ficha) {
-                celda.ficha = ficha.bajar("ficha-espacio")
-                cuadricula.updateCelda(celda)
+            if (ficha instanceof Ficha && this.ficha.id !== ficha.id) {
+                const nuevo = celda.clone()
+                nuevo.ficha = ficha.bajar("ficha-espacio")
+                cuadricula.updateCelda(nuevo)
             }
         }
 
-        const destino = ruta.celdas[ruta.celdas.length-1]
+        const destino = celdas[celdas.length-1]
         this.hacerMovimiento(cuadricula, destino)
     }
 

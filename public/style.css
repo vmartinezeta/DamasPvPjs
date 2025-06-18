@@ -121,7 +121,6 @@ body {
     animation-duration: 4s;
 }
 
-
 .intro__titulo {
     color: #000000;
     text-align: center;
@@ -151,8 +150,7 @@ body {
 }
 
 .intro__control__button:hover {
-       background: #00e5c0a3;
-       border-radius: 0;
+    background: #00e5c0a3;
 }
 
 .intro__centrado {
