@@ -1,4 +1,4 @@
-export class SubSistemaVision {
+export class Panorama {
     constructor(nombre, izq, der, abilitado) {
         this.nombre = nombre
         this.abilitado = abilitado || false

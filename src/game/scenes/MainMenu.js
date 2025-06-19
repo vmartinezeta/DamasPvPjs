@@ -10,8 +10,7 @@ export class MainMenu extends Scene {
     create() {
         this.cameras.main.setBackgroundColor(0x00ff00);
         this.add.image(512, 384, 'background')
-      
-        
+
         this.add.text(500, 140, "Menu principal", {
             fontFamily: 'Arial Black', fontSize: 28, color: '#ffffff',
             stroke: '#000000', strokeThickness: 10,
@@ -25,18 +24,11 @@ export class MainMenu extends Scene {
         this.scene.start('Game');
     }
 
+    howTo() {
+        this.scene.start('HowTo')
+    }
+
     changeScene() {
         this.scene.start('MainMenu');  
     } 
-
-    // moveLetra(reactCallback) {
-    //     this.animation.reset()
-    //     this.animation.getLetra((letra) => {
-    //         reactCallback(letra)
-    //         if (letra.isUltima()) {
-    //             this.animation.parar()
-    //         }
-    //     })
-    // }
-
 }

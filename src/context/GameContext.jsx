@@ -16,9 +16,15 @@ export const useGame = () => {
 
 
 export function GameProvider({ children }) {
-    const [play, { stop }] = useSound(urlSound,{loop:true})
+    const [play, { stop }] = useSound(urlSound, { loop: true })
     const [toggleMusica, setToggleMusica] = useState(false)
-
+    const [configuracion, setConfiguracion] = useState({
+        reglas: "internacional",
+        forzarCaptura: false,
+        forzarCapturaMax: false,
+        habilitarAnimacion: true,
+        musicaFondoAutomatica: true
+    })
 
     const onToggleMusica = () => {
         const toggle = !toggleMusica
@@ -31,11 +37,23 @@ export function GameProvider({ children }) {
         setToggleMusica(toggle)
     }
 
+    const updateConfig = (evento) => {
+        const nuevo = { ...configuracion }
+        if (evento.target.name in nuevo && evento.target.name!=="reglas") {
+            nuevo[evento.target.name] = !nuevo[evento.target.name]
+        } else if(evento.target.name in nuevo && evento.target.name==="reglas"){
+            nuevo[evento.target.name] = evento.target.value
+        }
+
+        setConfiguracion(nuevo)
+    }
 
     return <GameContext.Provider value={{
+        configuracion,
         onToggleMusica,
         play,
-        setToggleMusica
+        setToggleMusica,
+        updateConfig
     }}>
         {children}
     </GameContext.Provider>

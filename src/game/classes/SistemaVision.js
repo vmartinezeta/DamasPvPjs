@@ -1,17 +1,17 @@
 import { Punto } from "./Punto"
-import { SubSistemaVision } from "./Subsistema"
+import { Panorama } from "./Panorama"
 
 export class SistemaVision {
     constructor() {
         this.sistema = []
-        this.sistema.push(new SubSistemaVision(
+        this.sistema.push(new Panorama(
             "FRONTAL",
             new Punto(1, 1),
             new Punto(1, -1),
             true
         ))
 
-        this.sistema.push(new SubSistemaVision(
+        this.sistema.push(new Panorama(
             "TRASERA",
             new Punto(-1, -1),
             new Punto(-1, 1)            

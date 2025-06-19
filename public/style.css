@@ -10,6 +10,38 @@ body {
     min-height: 100vh;
 }
 
+h1  {
+    color: #fff;
+    font-size: 3em;
+}
+
+.centro {
+    position: relative;
+}
+
+.contenedor {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+
+.control {
+    width: 400px;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+}
+
+.control__titulo {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    
+}
+
 .app {
     width: 100%;
     height: 100vh;
@@ -168,6 +200,8 @@ body {
 .creditos__titulo {
     font-size: 20px;   
 }
+
+
 
 
 @keyframes animarBorde {
