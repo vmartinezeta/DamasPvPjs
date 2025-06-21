@@ -22,6 +22,5 @@ export class HowTo extends Scene {
 
     setConfig(config) {
         this.configuracion = config
-        console.log("phaser", config)
     }
 }

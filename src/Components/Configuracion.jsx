@@ -2,12 +2,12 @@ import { useGame } from "../context/GameContext"
 
 
 function Configuracion() {
-    const {configuracion, updateConfig} = useGame()
-    
+    const { configuracion, updateConfig } = useGame()
+
 
     return <div className="contenedor">
         <div className="control">
-            <h1 className="control__titulo">Configuración</h1>
+            <h2 className="control__titulo">Configuración</h2>
             <form className="control__form">
                 <div className="grupo">
                     <label htmlFor="reglas">Reglas:</label>
@@ -17,21 +17,23 @@ function Configuracion() {
                         <option value="Italianas">Italianas</option>
                     </select>
                 </div>
-                <div className="grupo">
-                    <input onChange={updateConfig} name="forzarCaptura" type="checkbox" id="forzar-captura" />
-                    <label htmlFor="forzar-captura">Forzar captura</label>
-                </div>
-                <div className="grupo">
-                    <input onChange={updateConfig} name="forzarCapturaMax" type="checkbox" id="forzar-captura-maxima" />
-                    <label htmlFor="forzar-captura-maxima">Forzar captura maxima</label>
-                </div>
-                <div className="grupo">
-                    <input onChange={updateConfig} name="habilitarAnimacion" type="checkbox" id="habilitar-animacion" value={configuracion.habilitarAnimacion} defaultChecked={configuracion.habilitarAnimacion} />
-                    <label htmlFor="habilitar-animacion">Habilitar animación</label>
-                </div>
-                <div className="grupo">
-                    <input onChange={updateConfig} name="musicaFondoAutomatica" type="checkbox" id="habilitar-musica-fondo" value={configuracion.musicaFondoAutomatica} defaultChecked={configuracion.musicaFondoAutomatica} />
-                    <label htmlFor="habilitar-musica-fondo">Música de fondo automatica</label>
+                <div className="opciones-container">
+                    <div className="opcion-checkbox">
+                        <input onChange={updateConfig} name="forzarCaptura" type="checkbox" id="forzar-captura" />
+                        <label htmlFor="forzar-captura">Forzar captura</label>
+                    </div>
+                    <div className="opcion-checkbox">
+                        <input onChange={updateConfig} name="forzarCapturaMax" type="checkbox" id="forzar-captura-maxima" />
+                        <label htmlFor="forzar-captura-maxima">Forzar captura maxima</label>
+                    </div>
+                    <div className="opcion-checkbox">
+                        <input onChange={updateConfig} name="habilitarAnimacion" type="checkbox" id="habilitar-animacion" value={configuracion.habilitarAnimacion} defaultChecked={configuracion.habilitarAnimacion} />
+                        <label htmlFor="habilitar-animacion">Habilitar animación</label>
+                    </div>
+                    <div className="opcion-checkbox">
+                        <input onChange={updateConfig} name="musicaFondoAutomatica" type="checkbox" id="habilitar-musica-fondo" value={configuracion.musicaFondoAutomatica} defaultChecked={configuracion.musicaFondoAutomatica} />
+                        <label htmlFor="habilitar-musica-fondo">Música de fondo automatica</label>
+                    </div>
                 </div>
             </form>
         </div>
