@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import useSound from 'use-sound'
 import urlSound from "../audio/musica-fondo.mp3"
 import PropTypes from "prop-types"
@@ -25,6 +25,17 @@ export function GameProvider({ children }) {
         habilitarAnimacion: true,
         musicaFondoAutomatica: true
     })
+
+    useEffect(()=> {  
+        const config = JSON.parse(localStorage.getItem('configuracionDamas') || "{}")
+        
+        if (Object.keys(config).join("") === Object.keys(configuracion).join("")) {
+            setConfiguracion(config)
+        } else {
+            localStorage.removeItem('configuracionDamas')
+            localStorage.setItem('configuracionDamas', JSON.stringify(configuracion))
+        }
+    }, [])
 
     const onToggleMusica = () => {
         const toggle = !toggleMusica
@@ -63,3 +74,12 @@ export function GameProvider({ children }) {
 GameProvider.propTypes = {
     children: PropTypes.node
 }
+
+
+// localstorage
+// Primero obtienes lo que hay guardado
+// let configuracion = JSON.parse(localStorage.getItem('configuracionDamas') || '{}')
+// Modificas lo que necesites
+// configuracion.reglas = 'brasilena'
+// Vuelves a guardar
+// localStorage.setItem('configuracionDamas', JSON.stringify(configuracion))

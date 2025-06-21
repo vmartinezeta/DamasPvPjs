@@ -16,6 +16,9 @@ function CentroControl({ scene }) {
             return
         }
         scene.setConfig(configuracion)
+
+        localStorage.removeItem('configuracionDamas')
+        localStorage.setItem('configuracionDamas', JSON.stringify(configuracion))
     }, [configuracion])
 
 
