@@ -11,13 +11,13 @@ export default class Resume extends Phaser.GameObjects.Group {
         const amarilla = this.create(origen.x + 100, origen.y, "ficha-amarilla").setOrigin(0.5)
         this.add(amarilla)
 
-        this.rotuloBlanco = scene.add.text(60, 100, totalBlancas, {
+        this.rotuloBlanco = scene.add.text(origen.x+100, origen.y, totalBlancas, {
             fontFamily: 'Arial Black', fontSize: 18, color: '#ffffff',
             stroke: '#000000', strokeThickness: 10,
             align: 'center'
         }).setOrigin(0.5).setDepth(100)
 
-        this.rotuloNegro = scene.add.text(160, 100, totalNegras, {
+        this.rotuloNegro = scene.add.text(origen.x, origen.y, totalNegras, {
             fontFamily: 'Arial Black', fontSize: 18, color: '#ffffff',
             stroke: '#000000', strokeThickness: 10,
             align: 'center'

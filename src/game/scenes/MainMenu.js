@@ -4,7 +4,8 @@ import { Scene } from 'phaser'
 export class MainMenu extends Scene {
 
     constructor() {
-        super('MainMenu')     
+        super('MainMenu')
+        this.configuracion = null
     }
 
     create() {
@@ -15,10 +16,14 @@ export class MainMenu extends Scene {
             fontFamily: 'Arial Black', fontSize: 28, color: '#ffffff',
             stroke: '#000000', strokeThickness: 10,
             align: 'center'
-        }).setOrigin(0.5).setDepth(100)
+        }).setOrigin(0.5).setDepth(100)        
 
         EventBus.emit('current-scene-ready', this)
     }
+
+    updateConfig(nuevaConfig) {
+        this.configuracion = nuevaConfig
+    }    
 
     play() {
         this.scene.start('Game');

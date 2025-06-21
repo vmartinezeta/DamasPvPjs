@@ -101,8 +101,8 @@ export class Game extends Scene {
         this.cambiarTurno()
 
 
-        const howTo = this.scene.manager.getScene("HowTo")
-        const config = howTo.configuracion
+        const mainMenu = this.scene.manager.getScene("MainMenu")
+        const config = mainMenu.configuracion
         if (config  && config.habilitarAnimacion) {
             this.tablero.rotar(() => {
                 this.tablero.destroy()
@@ -113,6 +113,7 @@ export class Game extends Scene {
             this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
         }
 
+        this.resume.updateTablero(this.findBy(1).length, this.findBy(2).length)
         this.tableroTurno.updateTablero(this.jugadorActual.ficha.id)
     }
 

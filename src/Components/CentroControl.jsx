@@ -15,7 +15,10 @@ function CentroControl({ scene }) {
         if (!scene) {
             return
         }
-        scene.setConfig(configuracion)
+        if (scene.scene.key==="Game") {
+            return
+        }
+        scene.updateConfig(configuracion)
 
         localStorage.removeItem('configuracionDamas')
         localStorage.setItem('configuracionDamas', JSON.stringify(configuracion))

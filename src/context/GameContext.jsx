@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import useSound from 'use-sound'
 import urlSound from "../audio/musica-fondo.mp3"
 import PropTypes from "prop-types"
+import { configDamas } from '../game/classes/Config'
 
 
 const GameContext = createContext()
@@ -18,15 +19,9 @@ export const useGame = () => {
 export function GameProvider({ children }) {
     const [play, { stop }] = useSound(urlSound, { loop: true })
     const [toggleMusica, setToggleMusica] = useState(false)
-    const [configuracion, setConfiguracion] = useState({
-        reglas: "internacional",
-        forzarCaptura: false,
-        forzarCapturaMax: false,
-        habilitarAnimacion: true,
-        musicaFondoAutomatica: true
-    })
+    const [configuracion, setConfiguracion] = useState(configDamas)
 
-    useEffect(()=> {  
+    useEffect(()=> {
         const config = JSON.parse(localStorage.getItem('configuracionDamas') || "{}")
         
         if (Object.keys(config).join("") === Object.keys(configuracion).join("")) {
