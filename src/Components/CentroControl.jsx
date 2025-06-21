@@ -3,13 +3,20 @@ import { useGame } from "../context/GameContext"
 
 
 function CentroControl({ scene }) {
-    const { onToggleMusica, play, setToggleMusica } = useGame()
-
+    const { configuracion, onToggleMusica,play, setToggleMusica} = useGame()
 
     useEffect(() => {
+        if (!configuracion.musicaFondoAutomatica) return
         play()
         setToggleMusica(true)
     }, [])
+
+    useEffect(()=> {
+        if (!scene) {
+            return
+        }
+        scene.setConfig(configuracion)
+    }, [configuracion])
 
 
     const changeScene = () => {

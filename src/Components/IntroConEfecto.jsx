@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { GameProvider } from "../context/GameContext"
 import Intro from "./Intro"
+import { GameProvider } from "../context/GameContext"
 
 
 export default function IntroConEfecto() {
@@ -10,7 +10,7 @@ export default function IntroConEfecto() {
         setAbierto(!abierto)
     }
 
-    return <GameProvider>
+    return <GameProvider >
         <Intro abierto={abierto} toggle={toggle} />
     </GameProvider>
 }

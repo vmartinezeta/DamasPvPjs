@@ -97,7 +97,7 @@ export default class Tablero extends Phaser.GameObjects.Container {
         for (const celda of this.cuadricula.toArray().filter(c => !(c instanceof Vacio))) {
             const origen = celda.ubicacion.virtual
             const cartel = this.fichas.find(f => f.key === origen.toString())
-            const {x, y} = celda.ubicacion.fisica
+            const { x, y } = celda.ubicacion.fisica
             this.scene.tweens.add({
                 targets: cartel,
                 x,
@@ -106,7 +106,17 @@ export default class Tablero extends Phaser.GameObjects.Container {
                 ease: 'Power2'
             });
         }
-     
+
     }
 
+
+    desabilitarOponentes() {
+        this.tablero.forEach(sprite => {
+            if (sprite.celda.ficha.nombre !== this.jugadorActual.ficha.nombre) {
+                sprite.disableInteractive(); // Bloqueo físico
+            } else {
+                sprite.setInteractive(); // Asegurar que las propias estén activas
+            }
+        })
+    }
 }

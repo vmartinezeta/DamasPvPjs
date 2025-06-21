@@ -17,7 +17,7 @@ function App() {
             <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
             {
                 scene && scene.scene.key==="HowTo" && <Configuracion />
-            }      
+            }  
         </div>
         <div>
             <CentroControl scene={scene} currentScene={currentScene} />

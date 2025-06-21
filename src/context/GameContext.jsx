@@ -44,7 +44,7 @@ export function GameProvider({ children }) {
         } else if(evento.target.name in nuevo && evento.target.name==="reglas"){
             nuevo[evento.target.name] = evento.target.value
         }
-
+        
         setConfiguracion(nuevo)
     }
 

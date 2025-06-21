@@ -39,6 +39,7 @@ export class Game extends Scene {
         this.jugador2 = new Jugador(blanca)
         this.jugadorActual = this.jugador2
 
+
         this.resume = new Resume(this, new Punto(60, 100), 12, 12)
 
         this.tableroTurno = new TableroTurno(this, new Punto(160, 260), this.jugadorActual.ficha.id)
@@ -71,7 +72,7 @@ export class Game extends Scene {
         }
         const sistema = new SistemaRuta(this.cuadricula, celda)
         this.rutas = sistema.generar()
-        
+
         gameObject.setTint(0x00ff00)
         celda.activa = !celda.activa
         this.jugadorActual.origen = celda
@@ -99,10 +100,18 @@ export class Game extends Scene {
         this.jugadorActual.origen = null
         this.cambiarTurno()
 
-        this.tablero.rotar(() => {
+
+        const howTo = this.scene.manager.getScene("HowTo")
+        const config = howTo.configuracion
+        if (config  && config.habilitarAnimacion) {
+            this.tablero.rotar(() => {
+                this.tablero.destroy()
+                this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
+            })
+        } else {
             this.tablero.destroy()
             this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
-        })
+        }
 
         this.tableroTurno.updateTablero(this.jugadorActual.ficha.id)
     }
@@ -136,16 +145,6 @@ export class Game extends Scene {
 
     changeScene() {
         this.scene.start('MainMenu');
-    }
-
-    desabilitarOponentes() {
-        this.tablero.forEach(sprite => {
-            if (sprite.celda.ficha.nombre !== this.jugadorActual.ficha.nombre) {
-                sprite.disableInteractive(); // Bloqueo físico
-            } else {
-                sprite.setInteractive(); // Asegurar que las propias estén activas
-            }
-        })
     }
 
 }

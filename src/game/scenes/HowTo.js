@@ -2,11 +2,11 @@ import { EventBus } from '../EventBus'
 import { Scene } from 'phaser'
 
 
-
 export class HowTo extends Scene {
 
     constructor() {
         super('HowTo')
+        this.configuracion = null
     }
 
     create() {
@@ -19,4 +19,9 @@ export class HowTo extends Scene {
     howTo() {
         this.scene.start('MainMenu');
     } 
+
+    setConfig(config) {
+        this.configuracion = config
+        console.log("phaser", config)
+    }
 }
