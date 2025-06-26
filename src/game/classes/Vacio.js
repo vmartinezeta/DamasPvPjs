@@ -1,7 +1,7 @@
-import { Celda } from "./Celda.js";
+import { CeldaFactory } from "./CeldaFactory";
 
-export class Vacio extends Celda {
-    constructor(origen) {
-        super(null, origen || null)
+export class Vacio extends CeldaFactory {
+    constructor(ubicacion) {
+        super(ubicacion)
     }
 }

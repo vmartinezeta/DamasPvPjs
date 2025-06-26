@@ -11,8 +11,8 @@ export class FichaCartel extends Phaser.GameObjects.Sprite{
         scene.physics.world.enable(this)
         this.body.setAllowGravity(false)
 
-        this.setOrigin(0.5, 0.5)
-        this.setScale(.8)
+        this.setOrigin(.5)
+        this.setScale(.95)
         this.setInteractive()        
     }
 

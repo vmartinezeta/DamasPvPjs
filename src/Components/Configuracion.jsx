@@ -1,9 +1,9 @@
 import { useGame } from "../context/GameContext"
+import { ReglaDamas } from "../game/classes/Config"
 
 
 function Configuracion() {
     const { configuracion, updateConfig } = useGame()
-
 
     return <div className="contenedor">
         <div className="control">
@@ -12,9 +12,9 @@ function Configuracion() {
                 <div className="grupo">
                     <label htmlFor="reglas">Reglas:</label>
                     <select name="reglas" onChange={updateConfig} id="reglas">
-                        <option value="Internacionales">Internacionales</option>
-                        <option value="Españolas">Españolas</option>
-                        <option value="Italianas">Italianas</option>
+                        {
+                            ReglaDamas.toArray().map( (text, idx) => <option key={idx} value={text}>{text}</option>)
+                        }
                     </select>
                 </div>
                 <div className="opciones-container">

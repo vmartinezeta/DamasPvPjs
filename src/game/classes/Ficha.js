@@ -16,6 +16,10 @@ export class Ficha extends FichaDireccional {
         return new Espacio(nombre)
     }
 
+    isIgual(id) {
+        return this.id === id
+    }
+
     clone() {
         return new Ficha(this.id, this.nombre, this.sistemaVision)
     }

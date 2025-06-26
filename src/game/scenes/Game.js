@@ -24,6 +24,7 @@ export class Game extends Scene {
         this.empate = false
         this.turnoCartel = null
         this.rutas = []
+        this.graficos = []
     }
 
     create() {
@@ -44,6 +45,7 @@ export class Game extends Scene {
 
         this.tableroTurno = new TableroTurno(this, new Punto(160, 260), this.jugadorActual.ficha.id)
         this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
+        this.tablero.bloquearOponentes(this.jugador2)
 
         this.cameras.main.setBounds(0, 0, 800, 600); // Ajusta al tamaño del juego
 
@@ -66,23 +68,60 @@ export class Game extends Scene {
 
     iniciarMovimiento(gameObject) {
         const celda = gameObject.celda
+        this.tablero.bloquearOponentes(this.jugadorActual)
         if (celda.ficha instanceof Espacio
             || (celda.ficha instanceof Ficha && this.jugadorActual.ficha.id !== celda.ficha.id)) {
             return
         }
+
         const sistema = new SistemaRuta(this.cuadricula, celda)
         this.rutas = sistema.generar()
 
-        gameObject.setTint(0x00ff00)
+        this.notificarRutas()
+
+        this.habilitarRutas()
+
         celda.activa = !celda.activa
         this.jugadorActual.origen = celda
     }
 
-    finalizarMovimiento(gameObject) {
-        const celda = gameObject.celda
-        if (celda.activa) {
-            return this.cancelarMovimiento(gameObject)
+    habilitarRutas() {
+        for(const r of this.rutas) {
+            this.tablero.habilitarRuta(r)
         }
+    }
+
+    notificarRutas() {
+        for(const r of this.rutas) {
+            for(const c of r.celdas) {
+                this.marcarCelda(c)
+            }
+        }
+    }
+
+    marcarCelda(celda) {
+        const {x, y} = celda.ubicacion.fisica
+        const grafico = this.add.graphics()
+        grafico.lineStyle(4, 0x00ff00)
+        grafico.strokeRect(x+350, y-50, 100, 100)
+        grafico.setScale(.75)
+        this.graficos.push(grafico)
+    }
+
+    desnotificarRutas() {
+        for(const g of this.graficos) {
+            g.destroy()
+        }
+    }
+
+    finalizarMovimiento(gameObject) {
+        let celda = gameObject.celda
+        const nuevo = celda.clone()
+
+        this.desnotificarRutas()
+        // if (celda.activa) {
+        //     return this.cancelarMovimiento(gameObject)
+        // }
 
         if (!(celda.ficha instanceof Espacio)) {
             return
@@ -95,6 +134,11 @@ export class Game extends Scene {
             this.jugadorActual.hacerMovimiento(this.cuadricula, celda)
         }
 
+
+        if (this.cuadricula.estaEnLimiteHorizontal(nuevo.ubicacion.virtual)) {
+            this.coronar(nuevo)
+        }
+
         this.rutas = []
         celda.activa = !celda.activa
         this.jugadorActual.origen = null
@@ -103,7 +147,7 @@ export class Game extends Scene {
 
         const mainMenu = this.scene.manager.getScene("MainMenu")
         const config = mainMenu.configuracion
-        if (config  && config.habilitarAnimacion) {
+        if (config && config.habilitarAnimacion) {
             this.tablero.rotar(() => {
                 this.tablero.destroy()
                 this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
@@ -122,6 +166,17 @@ export class Game extends Scene {
         const celda = gameObject.celda
         celda.activa = !celda.activa
         this.jugadorActual.origen = null
+    }
+
+    coronar(celda) {
+        const ficha = this.jugadorActual.ficha
+        if (ficha.isIgual(1)) {
+            celda.ficha = ficha.subir("ficha-reina-roja")
+        } else if (ficha.isIgual(2)) {
+            celda.ficha = ficha.subir("ficha-reina-amarilla")
+        }
+
+        this.cuadricula.updateCelda(celda)
     }
 
     cambiarTurno() {

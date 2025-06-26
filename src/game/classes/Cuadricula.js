@@ -1,7 +1,6 @@
 import { Celda } from "./Celda.js"
-import { Ficha } from "./Ficha.js"
+import { Espacio } from "./Espacio.js"
 import { Punto } from "./Punto.js"
-import { SuperFicha } from "./SuperFicha.js"
 import { Ubicacion } from "./Ubicacion.js"
 import { Vacio } from "./Vacio.js"
 
@@ -65,8 +64,7 @@ export class Cuadricula {
                 const x1 = this.separacion * j + this.origen.x
                 const y1 = this.separacion * i + this.origen.y
                 celda.ubicacion = new Ubicacion(new Punto(i, j), new Punto(x1, y1))
-                // const ficha = celda.ficha
-                if (celda instanceof Celda && celda.ficha instanceof Ficha || celda.ficha instanceof SuperFicha) {
+                if (celda instanceof Celda && !(celda.ficha instanceof Espacio)) {
                     celda.ficha.sistemaVision = celda.ficha.sistemaVision.rotar()
                 }
                 nuevaMatriz[i][j] = celda
@@ -76,4 +74,25 @@ export class Cuadricula {
         this.celdas = nuevaMatriz
     }
 
+    toUbicacionArray() {
+        return this.toArray()
+        .filter(c => c instanceof Celda)
+        .map( c => c.ubicacion)
+    }
+
+    contiene(punto) {
+        if (!(punto instanceof Punto)) return false
+        return this.toUbicacionArray().map( ({virtual})=> virtual.toString()).includes(punto.toString())
+    }
+
+    siguientePunto(origen, vector) {
+        const x = origen.x + vector.x
+        const y = origen.y + vector.y
+        return new Punto(x, y)
+    }
+
+    estaEnLimiteHorizontal(punto) {
+        return this.celdas[0].filter(c => c instanceof Celda).map( ({ubicacion}) => ubicacion.virtual.toString()).includes(punto.toString())
+        || this.celdas[7].filter(c =>c instanceof Celda).map( ({ubicacion}) => ubicacion.virtual.toString()).includes(punto.toString())
+    }
 }

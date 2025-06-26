@@ -1,7 +1,9 @@
-export class Celda {
+import { CeldaFactory } from "./CeldaFactory.js"
+
+export class Celda extends CeldaFactory {
     constructor(ficha, ubicacion, activa) {
+        super(ubicacion)
         this.ficha = ficha
-        this.ubicacion = ubicacion
         this.activa = activa || false
     }
 
