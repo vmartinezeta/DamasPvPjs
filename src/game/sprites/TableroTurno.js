@@ -11,11 +11,11 @@ export default class TableroTurno extends Phaser.GameObjects.Group {
             align: 'center'
         }).setOrigin(0.5).setDepth(100)
 
-        this.blanca = this.create(origen.x, origen.y, "ficha-amarilla").setOrigin(0.5)
+        this.blanca = this.create(origen.x, origen.y, "amarilla-normal").setOrigin(0.5)
         this.fichas.push(this.blanca)
         this.add(this.blanca)
 
-        this.negra = this.create(origen.x, origen.y, "ficha-roja").setOrigin(0.5)
+        this.negra = this.create(origen.x, origen.y, "roja-normal").setOrigin(0.5)
         this.fichas.push(this.negra)
         this.add(this.negra)
 

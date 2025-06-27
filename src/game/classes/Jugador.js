@@ -1,5 +1,6 @@
 import { Ficha } from "./Ficha.js"
 import { JugadorFactory } from "./JugadorFactory.js"
+import { SuperFicha } from "./SuperFicha.js"
 
 
 export class Jugador extends JugadorFactory {
@@ -22,9 +23,9 @@ export class Jugador extends JugadorFactory {
         const celdas = ruta.celdas
         for(const celda of celdas) {
             const ficha = celda.ficha
-            if (ficha instanceof Ficha && this.ficha.id !== ficha.id) {
+            if ((ficha instanceof Ficha || ficha instanceof SuperFicha) && this.ficha.id !== ficha.id) {
                 const nuevo = celda.clone()
-                nuevo.ficha = ficha.bajar("ficha-espacio")
+                nuevo.ficha = ficha.bajar("espacio")
                 cuadricula.updateCelda(nuevo)
             }
         }
@@ -33,5 +34,4 @@ export class Jugador extends JugadorFactory {
         this.hacerMovimiento(cuadricula, destino)
     }
 
-    
 }

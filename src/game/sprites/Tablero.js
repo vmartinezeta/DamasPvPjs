@@ -9,14 +9,11 @@ export default class Tablero extends Phaser.GameObjects.Container {
         super(scene, origen.x, origen.y)
         this.cuadricula = cuadricula
         this.scene = scene
-        scene.add.existing(this) // Añade el container a la escena
-        // En el constructor de tu clase TableroDamas:
-
+        scene.add.existing(this)
         // Configuración
         this.cellSize = 100; // Tamaño de cada celda
         this.anguloActual = 0; // Ángulo de rotación inicial
         this.setScale(.75)
-        // Matriz lógica (8x8): null = vacío, 'blanco'/'negro' = fichas
 
         // Elementos visuales
         this.celdas = []; // Referencias a los sprites de celdas

@@ -5,10 +5,10 @@ export default class Resume extends Phaser.GameObjects.Group {
         super(scene)
         this.scene = scene
 
-        const roja = this.create(origen.x, origen.y, "ficha-roja").setOrigin(0.5)
+        const roja = this.create(origen.x, origen.y, "roja-normal").setOrigin(0.5)
         this.add(roja)
 
-        const amarilla = this.create(origen.x + 100, origen.y, "ficha-amarilla").setOrigin(0.5)
+        const amarilla = this.create(origen.x + 100, origen.y, "amarilla-normal").setOrigin(0.5)
         this.add(amarilla)
 
         this.rotuloBlanco = scene.add.text(origen.x+100, origen.y, totalBlancas, {

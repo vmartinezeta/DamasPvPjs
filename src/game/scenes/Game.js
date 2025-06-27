@@ -11,6 +11,8 @@ import { Punto } from '../classes/Punto'
 import TableroTurno from '../sprites/TableroTurno'
 import { SistemaVision } from '../classes/SistemaVision'
 import { SistemaRuta } from '../classes/SistemaRuta'
+import { Celda } from '../classes/Celda'
+import { Ubicacion } from '../classes/Ubicacion'
 
 
 export class Game extends Scene {
@@ -32,14 +34,13 @@ export class Game extends Scene {
         this.physics.world.setBounds(0, 0, 1024, 600)
 
         const sistema = new SistemaVision()
-        const negro = new Ficha(1, "ficha-roja", sistema)
-        const blanca = new Ficha(2, "ficha-amarilla", sistema.rotar())
-        const espacio = new Espacio("ficha-espacio")
-        this.cuadricula = new Cuadricula(negro, blanca, espacio, new Punto(50, 50), 100)
+        const negro = new Ficha(1, "roja-normal", sistema)
+        const blanca = new Ficha(2, "amarilla-normal", sistema.rotar())
+        const espacio = new Espacio("espacio")
+        this.cuadricula = new Cuadricula(negro, blanca, espacio, new Punto(0, 6), 100)
         this.jugador1 = new Jugador(negro)
         this.jugador2 = new Jugador(blanca)
         this.jugadorActual = this.jugador2
-
 
         this.resume = new Resume(this, new Punto(60, 100), 12, 12)
 
@@ -69,11 +70,12 @@ export class Game extends Scene {
     iniciarMovimiento(gameObject) {
         const celda = gameObject.celda
         this.tablero.bloquearOponentes(this.jugadorActual)
+        
         if (celda.ficha instanceof Espacio
-            || (celda.ficha instanceof Ficha && this.jugadorActual.ficha.id !== celda.ficha.id)) {
+            || ((celda.ficha instanceof Ficha || celda.ficha instanceof SuperFicha) && this.jugadorActual.ficha.id !== celda.ficha.id)) {
             return
         }
-
+        
         const sistema = new SistemaRuta(this.cuadricula, celda)
         this.rutas = sistema.generar()
 
@@ -81,7 +83,6 @@ export class Game extends Scene {
 
         this.habilitarRutas()
 
-        celda.activa = !celda.activa
         this.jugadorActual.origen = celda
     }
 
@@ -103,7 +104,7 @@ export class Game extends Scene {
         const {x, y} = celda.ubicacion.fisica
         const grafico = this.add.graphics()
         grafico.lineStyle(4, 0x00ff00)
-        grafico.strokeRect(x+350, y-50, 100, 100)
+        grafico.strokeRect(x+400, y-6, 100, 100)
         grafico.setScale(.75)
         this.graficos.push(grafico)
     }
@@ -119,12 +120,10 @@ export class Game extends Scene {
         const nuevo = celda.clone()
 
         this.desnotificarRutas()
-        // if (celda.activa) {
-        //     return this.cancelarMovimiento(gameObject)
-        // }
 
-        if (!(celda.ficha instanceof Espacio)) {
-            return
+        if ((celda.ficha instanceof Ficha || celda.ficha instanceof SuperFicha)
+            && celda.ficha.isIgual(this.jugadorActual.ficha.id)) {
+            return this.terminarMovimiento()
         }
 
         const ruta = this.rutas.find(r => r.lastCelda().ubicacion.virtual.toString() === celda.ubicacion.virtual.toString())
@@ -139,11 +138,8 @@ export class Game extends Scene {
             this.coronar(nuevo)
         }
 
-        this.rutas = []
-        celda.activa = !celda.activa
-        this.jugadorActual.origen = null
+        this.terminarMovimiento()
         this.cambiarTurno()
-
 
         const mainMenu = this.scene.manager.getScene("MainMenu")
         const config = mainMenu.configuracion
@@ -161,19 +157,17 @@ export class Game extends Scene {
         this.tableroTurno.updateTablero(this.jugadorActual.ficha.id)
     }
 
-    cancelarMovimiento(gameObject) {
-        gameObject.clearTint()
-        const celda = gameObject.celda
-        celda.activa = !celda.activa
+    terminarMovimiento() {
+        this.rutas = []
         this.jugadorActual.origen = null
     }
 
     coronar(celda) {
         const ficha = this.jugadorActual.ficha
         if (ficha.isIgual(1)) {
-            celda.ficha = ficha.subir("ficha-reina-roja")
+            celda.ficha = ficha.subir("roja-reina")
         } else if (ficha.isIgual(2)) {
-            celda.ficha = ficha.subir("ficha-reina-amarilla")
+            celda.ficha = ficha.subir("amarilla-reina")
         }
 
         this.cuadricula.updateCelda(celda)

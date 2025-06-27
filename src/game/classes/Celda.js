@@ -1,13 +1,12 @@
 import { CeldaFactory } from "./CeldaFactory.js"
 
 export class Celda extends CeldaFactory {
-    constructor(ficha, ubicacion, activa) {
+    constructor(ficha, ubicacion) {
         super(ubicacion)
         this.ficha = ficha
-        this.activa = activa || false
     }
 
     clone() {
-        return new Celda(this.ficha, this.ubicacion, this.activa)
+        return new Celda(this.ficha, this.ubicacion)
     }
 }

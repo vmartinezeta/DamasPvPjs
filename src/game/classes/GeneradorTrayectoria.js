@@ -22,7 +22,7 @@ export class GeneradorTrayectoria {
         throw new TypeError("No es permitido el movimiento")
     }
 
-    movimientoReina() { 
+    movimientoReina() {
         let celdas = []
         celdas.push(this.celda)
         let siguientePunto = this.cuadricula.siguientePunto(this.celda.ubicacion.virtual, this.subVector)
@@ -33,10 +33,10 @@ export class GeneradorTrayectoria {
         let segmento = new MiniSegmento(celdas)
         const segmentos = []
         while (segmento.isValido()) {
-
-            if (segmento instanceof Segmento) {
+            if (segmento instanceof MiniSegmento || segmento instanceof Segmento) {
                 segmentos.push(segmento)
-                const ultimo = segmento.celdas[2].clone()
+                const idx = segmento instanceof MiniSegmento ? 1 : 2
+                const ultimo = segmento.celdas[idx].clone()
                 ultimo.ficha = this.celda.ficha
                 celdas = []
                 celdas.push(ultimo)
