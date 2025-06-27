@@ -11,8 +11,6 @@ import { Punto } from '../classes/Punto'
 import TableroTurno from '../sprites/TableroTurno'
 import { SistemaVision } from '../classes/SistemaVision'
 import { SistemaRuta } from '../classes/SistemaRuta'
-import { Celda } from '../classes/Celda'
-import { Ubicacion } from '../classes/Ubicacion'
 
 
 export class Game extends Scene {

@@ -9,16 +9,12 @@ export class Trayectoria {
         this.final = final || false
     }
 
-    puedeGirar() {        
+    puedeGirar() {
         const ruta = new Ruta(this.segmentos)
         return ruta.tieneKO()
     }
 
     getBrotes() {
-        const brotes = []
-        for(const s of this.segmentos) {
-            brotes.push(s.last())
-        }
-        return brotes
+        return this.segmentos
     }
 }

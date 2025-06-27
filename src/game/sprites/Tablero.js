@@ -7,8 +7,8 @@ import { Espacio } from "../classes/Espacio"
 export default class Tablero extends Phaser.GameObjects.Container {
     constructor(scene, origen, cuadricula) {
         super(scene, origen.x, origen.y)
-        this.cuadricula = cuadricula
         this.scene = scene
+        this.cuadricula = cuadricula
         scene.add.existing(this)
         // Configuración
         this.cellSize = 100; // Tamaño de cada celda

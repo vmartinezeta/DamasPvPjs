@@ -33,7 +33,8 @@ export class GeneradorTrayectoria {
         let segmento = new MiniSegmento(celdas)
         const segmentos = []
         while (segmento.isValido()) {
-            if (segmento instanceof MiniSegmento || segmento instanceof Segmento) {
+            if ((segmento instanceof MiniSegmento && !segmento.isOpuesta() )
+                || segmento instanceof Segmento) {
                 segmentos.push(segmento)
                 const idx = segmento instanceof MiniSegmento ? 1 : 2
                 const ultimo = segmento.celdas[idx].clone()
