@@ -37,4 +37,8 @@ export class MiniSegmento extends SegmentoFactory {
 
         return true
     }
+
+    last() {
+        return this.celdas[this.celdas.length-1]
+    }
 }

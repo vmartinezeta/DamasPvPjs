@@ -28,15 +28,17 @@ export class SistemaRuta {
         let trayectoria = this.trayectorias.find(t => !t.final)
 
         while (trayectoria) {
-            const {segmentos, vector, subVector} = trayectoria
+            const {segmentos, subVector} = trayectoria
             let i = 0
             for(; i<segmentos.length; i++) {
                 const s = segmentos[i]
-                if (this.celda.ficha instanceof SuperFicha
-                    || segmentos.find(s => s instanceof Segmento)) {
-                    this.ramificar(s, vector, subVector)
+                const sistema = this.celda.ficha.sistemaVision
+                const panorama = sistema.toArray().find(s => s.fromVector(subVector))
+                const desdePrimerKO = segmentos.findIndex( s => s instanceof Segmento)
+                if (this.celda.ficha instanceof SuperFicha && i>= desdePrimerKO) {
+                    this.ramificar(s, subVector, panorama.getAdyacente(subVector))
                 } else if (this.celda.ficha instanceof Ficha && s instanceof Segmento){
-                    this.ramificar(s,vector, subVector)
+                    this.ramificar(s, subVector, panorama.getAdyacente(subVector))
                 }
             }
 
@@ -45,15 +47,16 @@ export class SistemaRuta {
             }
             trayectoria = this.trayectorias.find(t => !t.final)
         }
-
-        return this.trayectorias.filter(t => t.vector ===null).map(t => new Ruta(t.segmentos))
+        // unir todas las rutas
+        return this.trayectorias.filter(t => t.vector === null).map(t => new Ruta(t.segmentos))
     }
 
-    ramificar(s, vector, subVector) {  
-        const celda = s.last()
-        const generador = new GeneradorTrayectoria(this.cuadricula, celda.clone(), vector, subVector)
+    ramificar(s, vector, subVector) {
+        const celda = s.last().clone()
+        celda.ficha = this.celda.ficha
+        const generador = new GeneradorTrayectoria(this.cuadricula, celda, vector, subVector)
         const trayectoria = generador.generar()
-        if (trayectoria) {
+        if (trayectoria && trayectoria.puedeGirar()) {
             this.trayectorias.push(trayectoria)
         }        
     }

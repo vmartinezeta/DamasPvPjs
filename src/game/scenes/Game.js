@@ -11,6 +11,8 @@ import { Punto } from '../classes/Punto'
 import TableroTurno from '../sprites/TableroTurno'
 import { SistemaVision } from '../classes/SistemaVision'
 import { SistemaRuta } from '../classes/SistemaRuta'
+import { Celda } from '../classes/Celda'
+import { Ubicacion } from '../classes/Ubicacion'
 
 
 export class Game extends Scene {
@@ -73,7 +75,7 @@ export class Game extends Scene {
             || ((celda.ficha instanceof Ficha || celda.ficha instanceof SuperFicha) && this.jugadorActual.ficha.id !== celda.ficha.id)) {
             return
         }
-        
+
         const sistema = new SistemaRuta(this.cuadricula, celda)
         this.rutas = sistema.generar()
 

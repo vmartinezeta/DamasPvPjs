@@ -10,4 +10,12 @@ export class Panorama {
     toArray() {
         return this.sistema
     }
+
+    fromVector(vector) {
+        return this.sistema.find( v => v.toString() === vector.toString())
+    }
+
+    getAdyacente(vector) {
+        return this.sistema.find( v => v.toString() !== vector.toString())
+    }
 }
