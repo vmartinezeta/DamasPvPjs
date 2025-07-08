@@ -17,9 +17,10 @@ export class Jugador extends JugadorFactory {
         cuadricula.updateCelda(principio)
         final.ubicacion = ubicacion
         cuadricula.updateCelda(final)
+        this.movimientosSinCaptura ++
     }
 
-    hacerMovConKO(cuadricula, ruta) {
+    hacerMovConKO(cuadricula, ruta, destino) {
         const celdas = ruta.celdas
         for(const celda of celdas) {
             const ficha = celda.ficha
@@ -30,7 +31,6 @@ export class Jugador extends JugadorFactory {
             }
         }
 
-        const destino = celdas[celdas.length-1]
         this.hacerMovimiento(cuadricula, destino)
     }
 

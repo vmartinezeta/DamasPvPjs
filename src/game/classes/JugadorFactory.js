@@ -3,5 +3,8 @@ export class JugadorFactory {
         this.ficha = ficha
         this.bloqueado = false
         this.origen = null
+        this.empate = false
+        this.movimientosSinCaptura = 0
+        this.cantidadMax = 25
     }
 }

@@ -8,6 +8,7 @@ export default class Tablero extends Phaser.GameObjects.Container {
     constructor(scene, origen, cuadricula) {
         super(scene, origen.x, origen.y)
         this.scene = scene
+        this.origen = origen
         this.cuadricula = cuadricula
         scene.add.existing(this)
         // Configuración
@@ -18,7 +19,7 @@ export default class Tablero extends Phaser.GameObjects.Container {
         // Elementos visuales
         this.celdas = []; // Referencias a los sprites de celdas
         this.fichas = []; // Referencias a los sprites de fichas
-
+        this.graficos = []
         // Inicializar
         this.crearTableroVisual()
         this.crearFichasIniciales()
@@ -97,13 +98,48 @@ export default class Tablero extends Phaser.GameObjects.Container {
         })
     }
 
+    habilitarRutas(rutas) {
+        for(const r of rutas) {
+            this.habilitarRuta(r)
+        }
+    }
+
     habilitarRuta(ruta) {
-        for (const c of ruta.celdas) {
+        for (const c of ruta.getEspaciosDestino()) {
             const {virtual} = c.ubicacion
             const sprite = this.fichas.find(f => f.key === virtual.toString())
             if (sprite) {
                   sprite.setInteractive()
             }
         }
+    }
+
+    marcarRutas(rutas) {
+        for(const r of rutas) {
+            for(const c of r.celdas) {
+                this.marcarCelda(c)
+            }
+        }
+    }
+
+    marcarCelda(celda) {
+        const {x, y} = celda.ubicacion.fisica
+        const grafico = this.scene.add.graphics()
+        grafico.lineStyle(4, 0x00ff00)
+        grafico.strokeRect(x+400, y-6, 100, 100)
+        grafico.setScale(.75)
+        this.graficos.push(grafico)
+    }
+
+    redibujar() {
+        for(const g of this.graficos) {
+            g.destroy()
+        }
+
+        for(const s of this.fichas) {
+            s.destroy()
+        }
+        this.fichas = []
+        this.crearFichasIniciales()
     }
 }

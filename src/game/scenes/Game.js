@@ -5,12 +5,12 @@ import { Ficha } from '../classes/Ficha'
 import { Espacio } from '../classes/Espacio'
 import { Jugador } from '../classes/Jugador'
 import { SuperFicha } from '../classes/SuperFicha'
-import Resume from '../sprites/Resume'
-import Tablero from '../sprites/Tablero'
 import { Punto } from '../classes/Punto'
-import TableroTurno from '../sprites/TableroTurno'
 import { SistemaVision } from '../classes/SistemaVision'
 import { SistemaRuta } from '../classes/SistemaRuta'
+import Tablero from '../sprites/Tablero'
+import TableroTurno from '../sprites/TableroTurno'
+import Resume from '../sprites/Resume'
 
 
 export class Game extends Scene {
@@ -21,10 +21,8 @@ export class Game extends Scene {
         this.jugador1 = null
         this.jugador2 = null
         this.jugadorActual = null
-        this.empate = false
         this.turnoCartel = null
         this.rutas = []
-        this.graficos = []
     }
 
     create() {
@@ -68,7 +66,7 @@ export class Game extends Scene {
     iniciarMovimiento(gameObject) {
         const celda = gameObject.celda
         this.tablero.bloquearOponentes(this.jugadorActual)
-        
+
         if (celda.ficha instanceof Espacio
             || ((celda.ficha instanceof Ficha || celda.ficha instanceof SuperFicha) && this.jugadorActual.ficha.id !== celda.ficha.id)) {
             return
@@ -77,78 +75,43 @@ export class Game extends Scene {
         const sistema = new SistemaRuta(this.cuadricula, celda)
         this.rutas = sistema.generar()
 
-        this.notificarRutas()
-
-        this.habilitarRutas()
+        this.tablero.marcarRutas(this.rutas)
+        this.tablero.habilitarRutas(this.rutas)
 
         this.jugadorActual.origen = celda
-    }
-
-    habilitarRutas() {
-        for(const r of this.rutas) {
-            this.tablero.habilitarRuta(r)
-        }
-    }
-
-    notificarRutas() {
-        for(const r of this.rutas) {
-            for(const c of r.celdas) {
-                this.marcarCelda(c)
-            }
-        }
-    }
-
-    marcarCelda(celda) {
-        const {x, y} = celda.ubicacion.fisica
-        const grafico = this.add.graphics()
-        grafico.lineStyle(4, 0x00ff00)
-        grafico.strokeRect(x+400, y-6, 100, 100)
-        grafico.setScale(.75)
-        this.graficos.push(grafico)
-    }
-
-    desnotificarRutas() {
-        for(const g of this.graficos) {
-            g.destroy()
-        }
     }
 
     finalizarMovimiento(gameObject) {
         let celda = gameObject.celda
         const nuevo = celda.clone()
 
-        this.desnotificarRutas()
-
         if ((celda.ficha instanceof Ficha || celda.ficha instanceof SuperFicha)
             && celda.ficha.isIgual(this.jugadorActual.ficha.id)) {
             return this.terminarMovimiento()
         }
 
-        const ruta = this.rutas.find(r => r.lastCelda().ubicacion.virtual.toString() === celda.ubicacion.virtual.toString())
+        const ruta = this.rutas.find(r => r.getEspaciosDestino().map(c => c.ubicacion.virtual.toString()).includes(celda.ubicacion.virtual.toString()))
         if (ruta.tieneKO()) {
-            this.jugadorActual.hacerMovConKO(this.cuadricula, ruta)
+            this.jugadorActual.hacerMovConKO(this.cuadricula, ruta, celda)
         } else {
-            this.jugadorActual.hacerMovimiento(this.cuadricula, celda)
+            this.jugadorActual.hacerMovimiento(this.cuadricula, celda)            
         }
-
 
         if (this.cuadricula.estaEnLimiteHorizontal(nuevo.ubicacion.virtual)) {
             this.coronar(nuevo)
         }
 
         this.terminarMovimiento()
-        this.cambiarTurno()
+        this.cambiarTurno()        
 
         const mainMenu = this.scene.manager.getScene("MainMenu")
         const config = mainMenu.configuracion
         if (config && config.habilitarAnimacion) {
             this.tablero.rotar(() => {
-                this.tablero.destroy()
-                this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
+                this.tablero.redibujar()
             })
         } else {
-            this.tablero.destroy()
-            this.tablero = new Tablero(this, new Punto(300, 0), this.cuadricula)
+            this.tablero.redibujar()
         }
 
         this.resume.updateTablero(this.findBy(1).length, this.findBy(2).length)
@@ -156,8 +119,28 @@ export class Game extends Scene {
     }
 
     terminarMovimiento() {
+        this.tablero.redibujar()
         this.rutas = []
         this.jugadorActual.origen = null
+        // if (this.rutas.length === 0) {
+        //     this.jugadorActual.bloqueado = true
+        // }
+        if (this.jugador1.movimientosSinCaptura === this.jugador2.movimientosSinCaptura && this.jugadorActual.cantidadMax===this.jugadorActual.movimientosSinCaptura) {
+            this.jugadorActual.empate = true            
+        }
+
+        if (this.finalizoJuego()) {
+            if (!this.jugadorActual.bloqueado && this.jugadorActual.id === this.jugador1.id
+                || !this.jugadorActual.bloqueado && this.jugadorActual.id === this.jugador2.id
+                || !this.jugadorActual.empate
+                || this.findBy(1).length === 0
+                || this.findBy(2).length === 0 
+            ) {
+                console.log("Haz ganado")
+            } else if (this.jugadorActual.empate) {
+                console.log("empataron")
+            }
+        }
     }
 
     coronar(celda) {
@@ -179,11 +162,11 @@ export class Game extends Scene {
         }
     }
 
-    finalizo() {
+    finalizoJuego() {
         return this.jugadorActual.bloqueado
             || this.findBy(this.jugador1.ficha.id).length === 0
             || this.findBy(this.jugador2.ficha.id).length === 0
-            || this.empate
+            || this.jugadorActual.empate
     }
 
     findBy(id) {

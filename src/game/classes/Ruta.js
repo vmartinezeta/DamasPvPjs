@@ -17,7 +17,7 @@ export class Ruta {
             if (this.celdas.length === 0) {
                 this.celdas = [...s.celdas]
             } else {
-                const celdas = s.celdas
+                const celdas = s.celdas.slice()
                 celdas.shift()
                 this.celdas = [...this.celdas, ...celdas]
             }
@@ -28,7 +28,16 @@ export class Ruta {
         return this.totalKO > 0
     }
 
-    lastCelda() {
-        return this.celdas[this.celdas.length-1]
+    getEspaciosDestino() {
+        const celdas = []
+        for (let i = this.segmentos.length-1; i>=0; i--) {
+            const actual = this.segmentos[i]
+            if (actual instanceof Segmento) {
+                celdas.push(actual.celdas[actual.celdas.length - 1])
+                return celdas
+            }
+            celdas.push(actual.celdas[actual.celdas.length - 1])
+        }
+        return celdas
     }
 }

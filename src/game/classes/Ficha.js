@@ -1,4 +1,3 @@
-import { Espacio } from "./Espacio.js"
 import { FichaDireccional } from "./FichaDireccional.js"
 import { SuperFicha } from "./SuperFicha.js"
 
@@ -10,14 +9,6 @@ export class Ficha extends FichaDireccional {
     subir(nombre) {
         this.sistemaVision.habilitarTodo()
         return new SuperFicha(this.id, nombre, this.sistemaVision)
-    }
-
-    bajar(nombre) {
-        return new Espacio(nombre)
-    }
-
-    isIgual(id) {
-        return this.id === id
     }
 
     clone() {

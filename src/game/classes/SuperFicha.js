@@ -5,7 +5,4 @@ export class SuperFicha extends FichaDireccional {
         super(id, nombre, sistemaVision)
     }    
 
-    bajar(nombre) {
-        return new Espacio(nombre)
-    }
 }
