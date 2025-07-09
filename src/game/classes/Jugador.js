@@ -32,6 +32,7 @@ export class Jugador extends JugadorFactory {
         }
 
         this.hacerMovimiento(cuadricula, destino)
+        this.movimientosSinCaptura = 0
     }
 
 }

@@ -12,18 +12,15 @@ function CentroControl({ scene }) {
     }, [])
 
     useEffect(()=> {
-        if (!scene) {
+        if (!scene || scene.scene.key === "Game") {
             return
         }
-        if (scene.scene.key==="Game") {
-            return
-        }
+
         scene.updateConfig(configuracion)
 
         localStorage.removeItem('configuracionDamas')
         localStorage.setItem('configuracionDamas', JSON.stringify(configuracion))
     }, [configuracion])
-
 
     const changeScene = () => {
         if (scene) {

@@ -11,6 +11,7 @@ import { SistemaRuta } from '../classes/SistemaRuta'
 import Tablero from '../sprites/Tablero'
 import TableroTurno from '../sprites/TableroTurno'
 import Resume from '../sprites/Resume'
+import { Celda } from '../classes/Celda'
 
 
 export class Game extends Scene {
@@ -106,10 +107,8 @@ export class Game extends Scene {
 
         const mainMenu = this.scene.manager.getScene("MainMenu")
         const config = mainMenu.configuracion
-        if (config && config.habilitarAnimacion) {
-            this.tablero.rotar(() => {
-                this.tablero.redibujar()
-            })
+        if (config && config.habilitarAnimacion) {            
+            this.tablero.rotar()
         } else {
             this.tablero.redibujar()
         }
@@ -122,9 +121,9 @@ export class Game extends Scene {
         this.tablero.redibujar()
         this.rutas = []
         this.jugadorActual.origen = null
-        // if (this.rutas.length === 0) {
-        //     this.jugadorActual.bloqueado = true
-        // }
+        
+        this.siguiente()
+
         if (this.jugador1.movimientosSinCaptura === this.jugador2.movimientosSinCaptura && this.jugadorActual.cantidadMax===this.jugadorActual.movimientosSinCaptura) {
             this.jugadorActual.empate = true            
         }
@@ -140,7 +139,18 @@ export class Game extends Scene {
             } else if (this.jugadorActual.empate) {
                 console.log("empataron")
             }
+            this.changeScene()
         }
+    }
+
+    siguiente() {
+        const celdas = this.findBy(this.jugadorActual.ficha.id)
+        for(const c of celdas) {
+            const sistema = new SistemaRuta(this.cuadricula, c)
+            const rutas = sistema.generar()
+            if (rutas.length > 0) return
+        }
+        this.jugadorActual.bloqueado = true
     }
 
     coronar(celda) {
@@ -171,7 +181,9 @@ export class Game extends Scene {
 
     findBy(id) {
         return this.cuadricula.toArray()
-            .filter(({ ficha }) => ficha instanceof Ficha || ficha instanceof SuperFicha).filter(({ ficha }) => ficha.id === id)
+        .filter(c => c instanceof Celda)
+        .filter(c => !(c instanceof Espacio))
+        .filter(({ ficha }) => ficha.id === id)
     }
 
     changeScene() {

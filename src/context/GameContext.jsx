@@ -7,6 +7,7 @@ import { configDamas } from '../game/classes/Config'
 
 const GameContext = createContext()
 
+
 export const useGame = () => {
     const context = useContext(GameContext)
     if (!context) {
@@ -21,16 +22,6 @@ export function GameProvider({ children }) {
     const [toggleMusica, setToggleMusica] = useState(false)
     const [configuracion, setConfiguracion] = useState(configDamas)
 
-    useEffect(()=> {
-        const config = JSON.parse(localStorage.getItem('configuracionDamas') || "{}")
-        
-        if (Object.keys(config).join("") === Object.keys(configuracion).join("")) {
-            setConfiguracion(config)
-        } else {
-            localStorage.removeItem('configuracionDamas')
-            localStorage.setItem('configuracionDamas', JSON.stringify(configuracion))
-        }
-    }, [])
 
     const onToggleMusica = () => {
         const toggle = !toggleMusica
@@ -56,6 +47,7 @@ export function GameProvider({ children }) {
 
     return <GameContext.Provider value={{
         configuracion,
+        setConfiguracion,
         onToggleMusica,
         play,
         setToggleMusica,

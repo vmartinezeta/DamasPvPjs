@@ -23,10 +23,10 @@ export class MainMenu extends Scene {
 
     updateConfig(nuevaConfig) {
         this.configuracion = nuevaConfig
-    }    
+    }
 
     play() {
-        this.scene.start('Game');
+        this.scene.start('Game')
     }
 
     howTo() {
@@ -34,6 +34,6 @@ export class MainMenu extends Scene {
     }
 
     changeScene() {
-        this.scene.start('MainMenu');  
+        this.scene.start('MainMenu')
     } 
 }

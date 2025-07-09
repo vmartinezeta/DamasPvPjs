@@ -1,4 +1,3 @@
-import { configDamas} from '../classes/Config'
 import { EventBus } from '../EventBus'
 import { Scene } from 'phaser'
 

@@ -10,21 +10,18 @@ export default class Tablero extends Phaser.GameObjects.Container {
         this.scene = scene
         this.origen = origen
         this.cuadricula = cuadricula
-        scene.add.existing(this)
-        // Configuración
-        this.cellSize = 100; // Tamaño de cada celda
-        this.anguloActual = 0; // Ángulo de rotación inicial
-        this.setScale(.75)
-
-        // Elementos visuales
-        this.celdas = []; // Referencias a los sprites de celdas
-        this.fichas = []; // Referencias a los sprites de fichas
+        this.cellSize = 100
+        this.angle = 0
+        this.anguloFinal = 180
+        this.setScale(3/4)
+        
+        this.celdas = []
+        this.fichas = []
         this.graficos = []
-        // Inicializar
+        
         this.crearTableroVisual()
         this.crearFichasIniciales()
-        // // Después de añadir todas las celdas/fichas:
-        this.setSize(8 * this.cellSize, 8 * this.cellSize); // Ancho = 8 celdas * tamaño
+        scene.add.existing(this)
     }
 
     crearTableroVisual() {
@@ -55,22 +52,22 @@ export default class Tablero extends Phaser.GameObjects.Container {
         }
     }
 
-    rotar(callback) {
+    rotar() {
         this.cuadricula.rotarMatriz180()
 
         this.scene.tweens.add({
             targets: this,
-            angle: this.angle + 180,
+            angle: this.angle + this.anguloFinal,
             duration: 1000,
             ease: 'Sine.InOut',
             onComplete: () => {
-                this.actualizarPosicionesFichas()
-                callback()
+                this.actualizarFichas()
+                this.redibujar()
             }
-        });
+        })
     }
 
-    actualizarPosicionesFichas() {
+    actualizarFichas() {
         for (const celda of this.cuadricula.toArray().filter(c => !(c instanceof Vacio))) {
             const origen = celda.ubicacion.virtual
             const cartel = this.fichas.find(f => f.key === origen.toString())
@@ -135,11 +132,13 @@ export default class Tablero extends Phaser.GameObjects.Container {
         for(const g of this.graficos) {
             g.destroy()
         }
+        this.graficos = []
 
         for(const s of this.fichas) {
             s.destroy()
         }
         this.fichas = []
+        this.angle = 0        
         this.crearFichasIniciales()
     }
 }
